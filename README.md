@@ -32,9 +32,9 @@ This repository is part of the data structure and algorithms (#EDA) teaching fra
 
 The students edit this section to add their names, Uniandes emails, and specify which project functionality of the project they will implement.
 
-1. Student No. 1 Name, Student No. 1 Uniandes Email, Student No. 1 owned functionality.
-1. Student No. 2 Name, Student No. 2 Uniandes Email, Student No. 2 owned functionality.
-1. Student No. 3 Name, Student No. 3 Uniandes Email, Student No. 3 owned functionality.
+1. Student No. 1 Andres Leonardo Beltran Contreras, Student No. 1 al.beltran@uniandes.edu.co, Student No. 1 owned functionality.
+1. Student No. 2 José Alejandro Rojas Zapata, Student No. 2 j.rojasz@uniandes.edu.co, Student No. 2 owned functionality.
+1. Student No. 3 Tomas Acosta Romero , Student No. 3 t.acostar@uniandes.edu.co, Student No. 3 owned functionality.
 
 [Back to top](#challenge-template)
 

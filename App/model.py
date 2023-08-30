@@ -50,8 +50,13 @@ def new_data_structs():
     manera vacía para posteriormente almacenar la información.
     """
     #TODO: Inicializar las estructuras de datos
-    pass
-
+    data = {"number_match": None,
+            "teams": None,
+            "condition": None,}
+    data["number_match"]= lt.newlist("SINGLE_LINKED")
+    data["teams"]= lt.newlist("ARRAY_LIST")
+    data["condition"]= lt.newlist("ARRAY_LIST")
+    return data
 
 # Funciones para agregar informacion al modelo
 
@@ -60,7 +65,7 @@ def add_data(data_structs, data):
     Función para agregar nuevos elementos a la lista
     """
     #TODO: Crear la función para agregar elementos a una lista
-    pass
+    
 
 
 # Funciones para creacion de datos

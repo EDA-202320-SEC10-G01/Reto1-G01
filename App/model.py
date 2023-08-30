@@ -40,7 +40,6 @@ assert cf
 Se define la estructura de un catálogo de videos. El catálogo tendrá
 dos listas, una para los videos, otra para las categorias de los mismos.
 """
-
 # Construccion de modelos
 
 
@@ -49,23 +48,37 @@ def new_data_structs():
     Inicializa las estructuras de datos del modelo. Las crea de
     manera vacía para posteriormente almacenar la información.
     """
-    #TODO: Inicializar las estructuras de datos
-    data = {"number_match": None,
-            "teams": None,
-            "condition": None,}
-    data["number_match"]= lt.newlist("SINGLE_LINKED")
-    data["teams"]= lt.newlist("ARRAY_LIST")
-    data["condition"]= lt.newlist("ARRAY_LIST")
-    return data
+    data_structs = {"results": None,
+                    "shootouts": None,
+                    "goalscorers": None}
+    
+    data_structs["results"] = lt.newList("ARRAYLIST")
+    data_structs["shootouts"] = lt.newList("ARRAYLIST")
+    data_structs["goalscorers"] = lt.newList("ARRAYLIST")
+    
+    return data_structs
+
+
 
 # Funciones para agregar informacion al modelo
 
-def add_data(data_structs, data):
+def add_data_results(data_structs, data):
     """
     Función para agregar nuevos elementos a la lista
     """
-    #TODO: Crear la función para agregar elementos a una lista
+    lt.addLast(data_structs["results"], data)
     
+def add_data_shootouts(data_structs, data):
+    """
+    Función para agregar nuevos elementos a la lista
+    """
+    lt.addLast(data_structs["shootouts"], data)
+
+def add_data_goalscorers(data_structs, data):
+    """
+    Función para agregar nuevos elementos a la lista
+    """
+    lt.addLast(data_structs["goalscorers"], data)
 
 
 # Funciones para creacion de datos

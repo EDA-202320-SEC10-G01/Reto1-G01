@@ -48,15 +48,15 @@ def new_data_structs():
     Inicializa las estructuras de datos del modelo. Las crea de
     manera vacía para posteriormente almacenar la información.
     """
-    data_structs = {"results": None,
+    football_data = {"results": None,
                     "shootouts": None,
                     "goalscorers": None}
     
-    data_structs["results"] = lt.newList("ARRAYLIST")
-    data_structs["shootouts"] = lt.newList("ARRAYLIST")
-    data_structs["goalscorers"] = lt.newList("ARRAYLIST")
+    football_data["results"] = lt.newList("ARRAYLIST")
+    football_data["shootouts"] = lt.newList("ARRAYLIST")
+    football_data["goalscorers"] = lt.newList("ARRAYLIST")
     
-    return data_structs
+    return football_data
 
 
 
@@ -66,29 +66,32 @@ def add_data_results(data_structs, data):
     """
     Función para agregar nuevos elementos a la lista
     """
-    lt.addLast(data_structs["results"], data)
+    resultado = new.Result(data["date"], data["home_team"])
+    lt.addLast(data_structs["results"], resultado)
     
 def add_data_shootouts(data_structs, data):
     """
     Función para agregar nuevos elementos a la lista
     """
+    resultado = new.Result
     lt.addLast(data_structs["shootouts"], data)
+    pass
 
 def add_data_goalscorers(data_structs, data):
     """
     Función para agregar nuevos elementos a la lista
     """
     lt.addLast(data_structs["goalscorers"], data)
+    pass
 
 
 # Funciones para creacion de datos
 
-def new_data(id, info):
+def new_data(date, home_country,away_country):
     """
     Crea una nueva estructura para modelar los datos
     """
-    #TODO: Crear la función para estructurar los datos
-    pass
+    country = {"fecha":date, "local":home_country, "visitante":away_country}
 
 
 # Funciones de consulta

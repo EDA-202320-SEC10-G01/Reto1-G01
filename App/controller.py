@@ -35,9 +35,12 @@ def new_controller():
     """
     Crea una instancia del modelo
     """
-    #TODO: Llamar la función del modelo que crea las estructuras de datos
+    
+    control = {
+        "model":None
+    }
+    control["model"] = model. new_data_structs
     pass
-
 
 # Funciones para la carga de datos
 
@@ -45,12 +48,19 @@ def load_data(control, filename):
     """
     Carga los datos del reto
     """
-    # TODO: Realizar la carga de datos
-    pass
+    footbal_data = control["model"]
+    books,authors = loadResults(catalog)
+    tags = loadGoalScorers(catalog)
+    booktags = loadShootouts(catalog)
+    return books,authors,tags,booktags
 
-
+def loadResults(footballData):    
 # Funciones de ordenamiento
-
+    Resultsfile = cf.data_dir + "/football/results-utf8-5pct.csv"
+    input_file = csv.DictReader(open(Resultsfile, encoding="utf-8"))
+    for result in input_file:
+        model.add_data_results(footballData, result)
+    return model.data_size(footballData)   
 def sort(control):
     """
     Ordena los datos del modelo

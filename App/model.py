@@ -112,7 +112,7 @@ def data_size(data_structs):
     pass
 
 
-def req_1(data_structs):
+def Listar_ultimos_partidos_equipos_segun_posicion(data_structs):
     """
     Función que soluciona el requerimiento 1
     """

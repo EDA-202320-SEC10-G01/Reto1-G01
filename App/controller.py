@@ -61,6 +61,20 @@ def loadResults(footballData):
     for result in input_file:
         model.add_data_results(footballData, result)
     return model.data_size(footballData)   
+
+def loadShootouts(footballData):
+    Resultsfile = cf.data_dir + "/football/shootouts-utf8-5pct.csv"
+    input_file = csv.DictReader(open(Resultsfile, encoding="utf-8"))
+    for result in input_file:
+        model.add_data_shootouts(footballData, result)
+    return model.data_size(footballData)    
+
+def loadGoalScorers(footballData):
+    Resultsfile = cf.data_dir + "/football/goalscorers-utf8-5pct.csv"
+    input_file = csv.DictReader(open(Resultsfile, encoding="utf-8"))
+    for result in input_file:
+        model.add_data_goalscorers(footballData, result)
+    return model.data_size(footballData)    
 def sort(control):
     """
     Ordena los datos del modelo

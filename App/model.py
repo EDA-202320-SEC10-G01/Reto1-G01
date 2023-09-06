@@ -49,51 +49,69 @@ def new_data_structs():
     manera vacía para posteriormente almacenar la información.
     """
     football_data = {"results": None,
-                    "shootouts": None,
-                    "goalscorers": None}
+                     "goalscorers": None,
+                     "shootouts": None,}
     
-    football_data["results"] = lt.newList("ARRAYLIST")
-    football_data["shootouts"] = lt.newList("ARRAYLIST")
-    football_data["goalscorers"] = lt.newList("ARRAYLIST")
+    football_data["results"] = lt.newList("ARRAY_LIST")
+    football_data["goalscorers"] = lt.newList("ARRAY_LIST")
+    football_data["shootouts"] = lt.newList("ARRAY_LIST")
     
     return football_data
 
 
-
 # Funciones para agregar informacion al modelo
 
-def add_data_results(data_structs, data):
-    """
-    Función para agregar nuevos elementos a la lista
-    """
-    resultado = new.Result(data["date"], data["home_team"])
-    lt.addLast(data_structs["results"], resultado)
+def add_result(data_structs, data):
     
-def add_data_shootouts(data_structs, data):
-    """
-    Función para agregar nuevos elementos a la lista
-    """
-    resultado = new.Result
-    lt.addLast(data_structs["shootouts"], data)
-    pass
-
-def add_data_goalscorers(data_structs, data):
-    """
-    Función para agregar nuevos elementos a la lista
-    """
+    lt.addLast(data_structs["results"], data)
+    
+def add_goalscorer(data_structs, data):
+    
     lt.addLast(data_structs["goalscorers"], data)
-    pass
+    
+def add_shootout(data_structs, data):
+    
+    lt.addLast(data_structs["shootouts"], data)
 
 
 # Funciones para creacion de datos
 
-def new_data(date, home_country,away_country):
-    """
-    Crea una nueva estructura para modelar los datos
-    """
-    country = {"fecha":date, "local":home_country, "visitante":away_country}
+def new_result(date, home_team, away_team, home_score, away_score, tournament, city, country, neutral):
+    
+    result = {"date": date,
+              "home_team": home_team,
+              "away_team": away_team,
+              "home_score": home_score,
+              "away_score": away_score,
+              "tournament": tournament,
+              "city": city,
+              "country": country,
+              "neutral": neutral}
+    
+    return result
 
+def new_goalscorer(date, home_team, away_team, team, scorer, minute, own_goal, penalty):
+    
+    goalscorer = {"date": date,
+              "home_team": home_team,
+              "away_team": away_team,
+              "team": team,
+              "scorer": scorer,
+              "minute": minute,
+              "own_goal": own_goal,
+              "penalty": penalty}
+    
+    return goalscorer
 
+def new_shootout(date, home_team, away_team, winner):
+        
+        shootout = {"date": date,
+                    "home_team": home_team,
+                    "away_team": away_team,
+                    "winner": winner}
+        
+        return shootout
+    
 # Funciones de consulta
 
 def get_data(data_structs, id):
@@ -108,8 +126,12 @@ def data_size(data_structs):
     """
     Retorna el tamaño de la lista de datos
     """
-    #TODO: Crear la función para obtener el tamaño de una lista
-    pass
+    results_size = lt.size(data_structs["results"])
+    shootouts_size = lt.size(data_structs["shootouts"])
+    goalscorers_size = lt.size(data_structs["goalscorers"])
+    
+    return results_size, shootouts_size, goalscorers_size
+    
 
 
 def Listar_ultimos_partidos_equipos_segun_posicion(data_structs):

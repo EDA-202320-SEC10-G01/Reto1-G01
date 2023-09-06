@@ -35,26 +35,41 @@ def new_controller():
     """
     Crea una instancia del modelo
     """
+    control = {"model": None}
+    control["model"] = model.new_data_structs()
     
-    control = {
-        "model":None
-    }
-    control["model"] = model. new_data_structs
-    pass
+    return control
 
 # Funciones para la carga de datos
 
-def load_data(control, filename):
-    """
-    Carga los datos del reto
-    """
-    footbal_data = control["model"]
-    books,authors = loadResults(catalog)
-    tags = loadGoalScorers(catalog)
-    booktags = loadShootouts(catalog)
-    return books,authors,tags,booktags
 
-def loadResults(footballData):    
+
+def load_results(football_data):
+    
+    resultsfile = cf.data_dir + '/football/results-utf8-80pct.csv'
+    input_file = csv.DictReader(open(resultsfile, encoding="utf-8"))
+    for result in input_file:
+        model.add_result(football_data, result)
+        
+def load_goalscorers(football_data):
+    
+    goalscorersfile = cf.data_dir + '/football/goalscorers-utf8-80pct.csv'
+    input_file = csv.DictReader(open(goalscorersfile, encoding="utf-8"))
+    for goalscorer in input_file:
+        model.add_goalscorer(football_data, goalscorer)
+    
+def load_shootouts(football_data):
+    
+    shootoutsfile = cf.data_dir + '/football/shootouts-utf8-80pct.csv'
+    input_file = csv.DictReader(open(shootoutsfile, encoding="utf-8"))
+    for shootout in input_file:
+        model.add_shootout(football_data, shootout)
+        
+def load_data(control):
+    load_results(control["model"])
+    load_goalscorers(control["model"])
+    load_shootouts(control["model"])
+
 # Funciones de ordenamiento
     Resultsfile = cf.data_dir + "/football/results-utf8-5pct.csv"
     input_file = csv.DictReader(open(Resultsfile, encoding="utf-8"))
@@ -85,12 +100,8 @@ def sort(control):
 
 # Funciones de consulta sobre el catálogo
 
-def get_data(control, id):
-    """
-    Retorna un dato por su ID.
-    """
-    #TODO: Llamar la función del modelo para obtener un dato
-    pass
+def get_datasize(control):
+    return model.data_size(control["model"])
 
 
 def req_1(control):

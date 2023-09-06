@@ -63,13 +63,14 @@ def load_data(control):
     
     controller.load_data(control)
 
-
 def print_data(control):
-    """
-        Función que imprime un dato dado su ID
-    """
-    #TODO: Realizar la función para imprimir un elemento
-    pass
+  
+    headers1 = {"date": "Fecha",
+                "home_team": "Equipo local",
+                "away_team": "Equipo visitante",
+                "winner": "Ganador"}
+    
+    print(tabulate(lt.iterator(control["model"]["shootouts"]), headers1, tablefmt="fancy_grid"))
 
 def print_req_1(control):
     """
@@ -153,6 +154,7 @@ if __name__ == "__main__":
             load_data(control)
             size = controller.get_datasize(control)
             print(f"Se cargaron {size[0]} results, {size[1]} shootouts y {size[2]} goalscorers\n")
+            print_data(control)
         elif int(inputs) == 2:
             print_req_1(control)
 

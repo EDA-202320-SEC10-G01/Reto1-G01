@@ -39,11 +39,8 @@ operación solicitada
 
 
 def new_controller():
-    """
-        Se crea una instancia del controlador
-    """
-    #TODO: Llamar la función del controlador donde se crean las estructuras de datos
-    pass
+    
+    
 
 
 def print_menu():

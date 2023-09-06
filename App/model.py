@@ -49,30 +49,70 @@ def new_data_structs():
     Inicializa las estructuras de datos del modelo. Las crea de
     manera vacía para posteriormente almacenar la información.
     """
-    #TODO: Inicializar las estructuras de datos
-    pass
+    football_data = {results: None,
+                     goalscorers: None,
+                     shootouts: None,}
+    
+    football_data[results] = lt.newList("ARRAY_LIST")
+    football_data[goalscorers] = lt.newList("ARRAY_LIST")
+    football_data[shootouts] = lt.newList("ARRAY_LIST")
+    
+    return football_data
 
 
 # Funciones para agregar informacion al modelo
 
-def add_data(data_structs, data):
-    """
-    Función para agregar nuevos elementos a la lista
-    """
-    #TODO: Crear la función para agregar elementos a una lista
-    pass
+def add_result(data_structs, data):
+    
+    lt.addLast(data_structs[results], data)
+    
+def add_goalscorer(data_structs, data):
+    
+    lt.addLast(data_structs[goalscorers], data)
+    
+def add_shootout(data_structs, data):
+    
+    lt.addLast(data_structs[shootouts], data)
 
 
 # Funciones para creacion de datos
 
-def new_data(id, info):
-    """
-    Crea una nueva estructura para modelar los datos
-    """
-    #TODO: Crear la función para estructurar los datos
-    pass
+def new_result(date, home_team, away_team, home_score, away_score, tournament, city, country, neutral):
+    
+    result = {"date": date,
+              "home_team": home_team,
+              "away_team": away_team,
+              "home_score": home_score,
+              "away_score": away_score,
+              "tournament": tournament,
+              "city": city,
+              "country": country,
+              "neutral": neutral}
+    
+    return result
 
+def new_goalscorer(date, home_team, away_team, team, scorer, minute, own_goal, penalty):
+    
+    goalscorer = {"date": date,
+              "home_team": home_team,
+              "away_team": away_team,
+              "team": team,
+              "scorer": scorer,
+              "minute": minute,
+              "own_goal": own_goal,
+              "penalty": penalty}
+    
+    return goalscorer
 
+def new_shootout(date, home_team, away_team, winner):
+        
+        shootout = {"date": date,
+                    "home_team": home_team,
+                    "away_team": away_team,
+                    "winner": winner}
+        
+        return shootout
+    
 # Funciones de consulta
 
 def get_data(data_structs, id):

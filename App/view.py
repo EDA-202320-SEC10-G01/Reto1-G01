@@ -40,6 +40,8 @@ operación solicitada
 
 def new_controller():
     
+    return controller.new_controller()
+    
     
 
 
@@ -58,14 +60,11 @@ def print_menu():
 
 
 def load_data(control):
-    """
-    Carga los datos
-    """
-    #TODO: Realizar la carga de datos
-    pass
+    
+    controller.load_data(control)
 
 
-def print_data(control, id):
+def print_data(control):
     """
         Función que imprime un dato dado su ID
     """
@@ -151,7 +150,9 @@ if __name__ == "__main__":
         inputs = input('Seleccione una opción para continuar\n')
         if int(inputs) == 1:
             print("Cargando información de los archivos ....\n")
-            data = load_data(control)
+            load_data(control)
+            size = controller.get_datasize(control)
+            print(f"Se cargaron {size[0]} results, {size[1]} shootouts y {size[2]} goalscorers\n")
         elif int(inputs) == 2:
             print_req_1(control)
 

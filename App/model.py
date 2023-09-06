@@ -49,13 +49,13 @@ def new_data_structs():
     Inicializa las estructuras de datos del modelo. Las crea de
     manera vacía para posteriormente almacenar la información.
     """
-    football_data = {results: None,
-                     goalscorers: None,
-                     shootouts: None,}
+    football_data = {"results": None,
+                     "goalscorers": None,
+                     "shootouts": None,}
     
-    football_data[results] = lt.newList("ARRAY_LIST")
-    football_data[goalscorers] = lt.newList("ARRAY_LIST")
-    football_data[shootouts] = lt.newList("ARRAY_LIST")
+    football_data["results"] = lt.newList("ARRAY_LIST")
+    football_data["goalscorers"] = lt.newList("ARRAY_LIST")
+    football_data["shootouts"] = lt.newList("ARRAY_LIST")
     
     return football_data
 
@@ -64,15 +64,15 @@ def new_data_structs():
 
 def add_result(data_structs, data):
     
-    lt.addLast(data_structs[results], data)
+    lt.addLast(data_structs["results"], data)
     
 def add_goalscorer(data_structs, data):
     
-    lt.addLast(data_structs[goalscorers], data)
+    lt.addLast(data_structs["goalscorers"], data)
     
 def add_shootout(data_structs, data):
     
-    lt.addLast(data_structs[shootouts], data)
+    lt.addLast(data_structs["shootouts"], data)
 
 
 # Funciones para creacion de datos
@@ -127,8 +127,12 @@ def data_size(data_structs):
     """
     Retorna el tamaño de la lista de datos
     """
-    #TODO: Crear la función para obtener el tamaño de una lista
-    pass
+    results_size = lt.size(data_structs["results"])
+    shootouts_size = lt.size(data_structs["shootouts"])
+    goalscorers_size = lt.size(data_structs["goalscorers"])
+    
+    return results_size, shootouts_size, goalscorers_size
+    
 
 
 def req_1(data_structs):

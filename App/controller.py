@@ -47,21 +47,21 @@ def new_controller():
 
 def load_results(football_data):
     
-    resultsfile = cf.data_dir + '/football/results-utf8-80pct.csv'
+    resultsfile = cf.data_dir + '/football/results-utf8-small.csv'
     input_file = csv.DictReader(open(resultsfile, encoding="utf-8"))
     for result in input_file:
         model.add_result(football_data, result)
         
 def load_goalscorers(football_data):
     
-    goalscorersfile = cf.data_dir + '/football/goalscorers-utf8-80pct.csv'
+    goalscorersfile = cf.data_dir + '/football/goalscorers-utf8-small.csv'
     input_file = csv.DictReader(open(goalscorersfile, encoding="utf-8"))
     for goalscorer in input_file:
         model.add_goalscorer(football_data, goalscorer)
     
 def load_shootouts(football_data):
     
-    shootoutsfile = cf.data_dir + '/football/shootouts-utf8-80pct.csv'
+    shootoutsfile = cf.data_dir + '/football/shootouts-utf8-small.csv'
     input_file = csv.DictReader(open(shootoutsfile, encoding="utf-8"))
     for shootout in input_file:
         model.add_shootout(football_data, shootout)
@@ -74,25 +74,23 @@ def load_data(control):
 # Funciones de ordenamiento
 
 def sort(control):
-    """
-    Ordena los datos del modelo
-    """
-    #TODO: Llamar la función del modelo para ordenar los datos
-    pass
+    
 
-
+    
+    model.sort(control["model"]["results"], lambda x, y: x["date"] > y["date"])
+    model.sort(control["model"]["goalscorers"], lambda x, y: x["date"] > y["date"])
+    model.sort(control["model"]["shootouts"], lambda x, y: x["date"] > y["date"])
+    
+    
 # Funciones de consulta sobre el catálogo
 
 def get_datasize(control):
     return model.data_size(control["model"])
 
 
-def req_1(control):
-    """
-    Retorna el resultado del requerimiento 1
-    """
-    # TODO: Modificar el requerimiento 1
-    pass
+def req_1(control, n_partidos, equipo, condicion):
+    
+    return model.req_1(control["model"], n_partidos, equipo, condicion)
 
 
 def req_2(control):

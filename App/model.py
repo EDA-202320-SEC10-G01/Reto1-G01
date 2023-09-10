@@ -75,43 +75,6 @@ def add_shootout(data_structs, data):
     lt.addLast(data_structs["shootouts"], data)
 
 
-# Funciones para creacion de datos
-
-def new_result(date, home_team, away_team, home_score, away_score, tournament, city, country, neutral):
-    
-    result = {"date": date,
-              "home_team": home_team,
-              "away_team": away_team,
-              "home_score": home_score,
-              "away_score": away_score,
-              "tournament": tournament,
-              "city": city,
-              "country": country,
-              "neutral": neutral}
-    
-    return result
-
-def new_goalscorer(date, home_team, away_team, team, scorer, minute, own_goal, penalty):
-    
-    goalscorer = {"date": date,
-              "home_team": home_team,
-              "away_team": away_team,
-              "team": team,
-              "scorer": scorer,
-              "minute": minute,
-              "own_goal": own_goal,
-              "penalty": penalty}
-    
-    return goalscorer
-
-def new_shootout(date, home_team, away_team, winner):
-        
-        shootout = {"date": date,
-                    "home_team": home_team,
-                    "away_team": away_team,
-                    "winner": winner}
-        
-        return shootout
     
 # Funciones de consulta
 
@@ -135,12 +98,39 @@ def data_size(data_structs):
     
 
 
-def req_1(data_structs):
+def req_1(data_structs, n_partidos, equipo, condicion):
+    
     """
     Función que soluciona el requerimiento 1
     """
-    # TODO: Realizar el requerimiento 1
-    pass
+    
+    def is_team_local(result, equipo):
+        if result["neutral"] == "False" and result["home_team"] == equipo:
+            return True
+        else:
+            return False
+        
+    queue = qu.newQueue()
+    counter = 1
+    while queue["size"] < n_partidos:
+            result = lt.getElement(data_structs["results"], counter)
+            counter += 1
+            if equipo == result["home_team"] or equipo == result["away_team"]:
+                if condicion == "indiferente":
+                    qu.enqueue(queue, result)
+                elif condicion == "local":
+                    if is_team_local(result, equipo):
+                        qu.enqueue(queue, result)
+                elif condicion == "visitante":
+                    if not is_team_local(result, equipo):
+                        qu.enqueue(queue, result)
+            else:
+                pass
+            
+    return queue
+                
+                
+                
 
 
 def req_2(data_structs):
@@ -225,9 +215,8 @@ def sort_criteria(data_1, data_2):
     pass
 
 
-def sort(data_structs):
+def sort(data_structs, sort_criteria):
     """
     Función encargada de ordenar la lista con los datos
     """
-    #TODO: Crear función de ordenamiento
-    pass
+    quk.sort(data_structs, sort_criteria)

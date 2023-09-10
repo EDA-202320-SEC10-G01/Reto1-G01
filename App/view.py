@@ -70,13 +70,26 @@ def print_data(control):
                 "away_team": "Equipo visitante",
                 "winner": "Ganador"}
     
-    print(tabulate(lt.iterator(control["model"]["shootouts"]), headers1, tablefmt="fancy_grid"))
+    first_three = lt.subList(control["model"]["results"], 1, 3)
+    
+    last_three = lt.subList(control["model"]["results"], lt.size(control["model"]["results"])-2, 3)
+
+    combined_list = lt.newList("ARRAY_LIST")
+    
+    for i in range(lt.size(first_three)):
+        lt.addLast(combined_list, lt.getElement(first_three, i))
+
+    for i in range(lt.size(last_three)):
+        lt.addLast(combined_list, lt.getElement(last_three, i))
+        
+    print(tabulate(lt.iterator(combined_list), headers1, tablefmt="fancy_grid"))
+
+
+
+def sort(control):
+    controller.sort(control)  
 
 def print_req_1(control):
-    """
-        Función que imprime la solución del Requerimiento 1 en consola
-    """
-    # TODO: Imprimir el resultado del requerimiento 1
     pass
 
 
@@ -152,12 +165,12 @@ if __name__ == "__main__":
         if int(inputs) == 1:
             print("Cargando información de los archivos ....\n")
             load_data(control)
+            sort(control)
             size = controller.get_datasize(control)
             print(f"Se cargaron {size[0]} results, {size[1]} shootouts y {size[2]} goalscorers\n")
             print_data(control)
         elif int(inputs) == 2:
             print_req_1(control)
-
         elif int(inputs) == 3:
             print_req_2(control)
 

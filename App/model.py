@@ -85,8 +85,7 @@ def data_size(data_structs):
     
 
 
-def req_1(data_structs, n_partidos, equipo, condicion):
-    
+def req_1(data_structs):
     """
     Función que soluciona el requerimiento 1
     """
@@ -98,10 +97,10 @@ def req_1(data_structs, n_partidos, equipo, condicion):
             return False
         
     last_matches = lt.newList("ARRAY_LIST")
-    counter = 1
+    counter = lt.size(data_structs["results"])
     while last_matches["size"] < n_partidos:
             result = lt.getElement(data_structs["results"], counter)
-            counter += 1
+            counter -= 1
             if equipo == result["home_team"] or equipo == result["away_team"]:
                 if condicion == "indiferente":
                     lt.addLast(last_matches, result)   

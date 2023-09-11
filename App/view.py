@@ -56,7 +56,8 @@ def print_menu():
     print("7- Ejecutar Requerimiento 6")
     print("8- Ejecutar Requerimiento 7")
     print("9- Ejecutar Requerimiento 8")
-    print("10- Ordenar datos")
+    print("10 -Escoger representacion de la lista en el modelo")
+    print("11- Ordenar datos")
     print("0- Salir")
 
 
@@ -179,7 +180,7 @@ def sort(control):
     sort_algo = input ("""Ingrese el numero asociado al algoritmo de ordenamiento: \n
     1. Selection Sort \n
     2. Insertion Sort \n
-    3. Shell Sort""")
+    3. Shell Sort \n""")
     
     datos = input("""Ingrese que datos desea ordenar: \n
     1. Resultados \n
@@ -201,62 +202,13 @@ def print_req_1(control):
     print("Los partidos son: \n")
     print(tabulate(lt.iterator(matches), tablefmt="fancy_grid"))
 
-
-def print_req_2(control):
-    """
-        Función que imprime la solución del Requerimiento 2 en consola
-    """
-    # TODO: Imprimir el resultado del requerimiento 2
-    pass
-
-
-def print_req_3(control):
-    """
-        Función que imprime la solución del Requerimiento 3 en consola
-    """
-    # TODO: Imprimir el resultado del requerimiento 3
-    pass
-
-
-def print_req_4(control):
-    """
-        Función que imprime la solución del Requerimiento 4 en consola
-    """
-    # TODO: Imprimir el resultado del requerimiento 4
-    pass
-
-
-def print_req_5(control):
-    """
-        Función que imprime la solución del Requerimiento 5 en consola
-    """
-    # TODO: Imprimir el resultado del requerimiento 5
-    pass
-
-
-def print_req_6(control):
-    """
-        Función que imprime la solución del Requerimiento 6 en consola
-    """
-    # TODO: Imprimir el resultado del requerimiento 6
-    pass
-
-
-def print_req_7(control):
-    """
-        Función que imprime la solución del Requerimiento 7 en consola
-    """
-    # TODO: Imprimir el resultado del requerimiento 7
-    pass
-
-
-def print_req_8(control):
-    """
-        Función que imprime la solución del Requerimiento 8 en consola
-    """
-    # TODO: Imprimir el resultado del requerimiento 8
-    pass
-
+def print_tipo_dato_abstracto(control):
+    
+    tipo = input("""Ingrese el tipo de dato que desea para representar la listas de datos: \n
+    1. Array List \n
+    2. Linked List \n""")
+    
+    controller.tipo_dato_abstracto(control, tipo)
 
 # Se crea el controlador asociado a la vista
 control = new_controller()
@@ -301,8 +253,11 @@ if __name__ == "__main__":
 
         elif int(inputs) == 9:
             print_req_8(control)
-        
+            
         elif int(inputs) == 10:
+            print_tipo_dato_abstracto(control)
+        
+        elif int(inputs) == 11:
             sort(control)
             print_data(control)
 

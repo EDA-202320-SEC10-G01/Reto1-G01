@@ -105,13 +105,32 @@ def load_data(control, archivo, tamaño):
 # Funciones de ordenamiento
 
 def sort(control, sort_algorithm, datos):
+    start_time = get_time()
     model.sort(control["model"], sort_algorithm, datos)
+    end_time = get_time()
+    delta_time = end_time - start_time
+    print(f"Tiempo de ejecución del algoritmo de ordenamiento escogido sobre los datos indicados: {delta_time} ms")
     
 # Funciones de consulta sobre el catálogo
 
 def get_datasize(control):
     return model.data_size(control["model"])
 
+def tipo_dato_abstracto(control, tipo):
+    
+    if tipo == "1":
+        control["model"]["results"]["datastructure"] = "ARRAY_LIST"
+        control["model"]["goalscorers"]["datastructure"] = "ARRAY_LIST"
+        control["model"]["shootouts"]["datastructure"] = "ARRAY_LIST"
+        print("Se ha cambiado el tipo de dato abstracto a ARRAY_LIST")
+    elif tipo == "2":
+        control["model"]["results"]["datastructure"] = "LINKED_LIST"
+        control["model"]["goalscorers"]["datastructure"] = "LINKED_LIST"
+        control["model"]["shootouts"]["datastructure"] = "LINKED_LIST"
+        print("Se ha cambiado el tipo de dato abstracto a LINKED_LIST")
+    else:
+        print("Opcion no valida")
+    
 
 def req_1(control, n_partidos, equipo, condicion):
     

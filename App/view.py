@@ -90,7 +90,15 @@ def sort(control):
     controller.sort(control)  
 
 def print_req_1(control):
-    pass
+    
+    equipo = input("Ingrese el nombre del equipo: \n")
+    n_partidos = int(input("Ingrese el número de partidos: \n"))
+    condicion = input("Ingrese la condición: \n")
+    
+    matches = controller.req_1(control, n_partidos, equipo, condicion)
+    
+    print("Los partidos son: \n")
+    print(tabulate(lt.iterator(matches), tablefmt="fancy_grid"))
 
 
 def print_req_2(control):

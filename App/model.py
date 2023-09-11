@@ -110,24 +110,24 @@ def req_1(data_structs, n_partidos, equipo, condicion):
         else:
             return False
         
-    queue = qu.newQueue()
+    last_matches = lt.newList("ARRAY_LIST")
     counter = 1
-    while queue["size"] < n_partidos:
+    while last_matches["size"] < n_partidos:
             result = lt.getElement(data_structs["results"], counter)
             counter += 1
             if equipo == result["home_team"] or equipo == result["away_team"]:
                 if condicion == "indiferente":
-                    qu.enqueue(queue, result)
+                    lt.addLast(last_matches, result)   
                 elif condicion == "local":
                     if is_team_local(result, equipo):
-                        qu.enqueue(queue, result)
+                        lt.addLast(last_matches, result) 
                 elif condicion == "visitante":
                     if not is_team_local(result, equipo):
-                        qu.enqueue(queue, result)
+                        lt.addLast(last_matches, result) 
             else:
                 pass
             
-    return queue
+    return last_matches
                 
                 
                 

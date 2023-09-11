@@ -63,10 +63,10 @@ def print_menu():
 def load_data(control):
     
     archivo = input("""Ingrese el numero asociado al archivo a cargar: \n
-    1. results \n
-    2. goalscorers \n
-    3. shootouts \n
-    4. todos \n""")
+    1. Resultados de los partidos \n
+    2. Anotadores en los partidos \n
+    3. Tandas de penales \n
+    4. Todos \n""")
     
     tamaño = input("""Ingrese el numero asociado al tamaño de la muestra: \n
     1. small \n
@@ -78,7 +78,16 @@ def load_data(control):
     7. 80pct \n
     8. large \n""")
     
-    controller.load_data(control, archivo, tamaño)
+    orden = input("""Desea ordenar los datos antes de que se muestren en pantalla? \n
+    1. Si \n
+    2. No \n""")
+    
+    
+    controller.load_data(control, archivo, tamaño)   
+    if orden == "1":
+        sort(control)
+    else:
+        pass
 
 
 def print_data(control):
@@ -154,29 +163,29 @@ def print_data(control):
         print(tabulate(lt.iterator(combined_list), headers3, tablefmt="fancy_grid"))
 
     if lt.isEmpty(control["model"]["results"]) == False:
-        print("Los primeros y últimos 3 resultados son: \n")
+        print("Los primeros y últimos 3 resultados cargados son: \n")
         print_results(control)
         
     if lt.isEmpty(control["model"]["goalscorers"]) == False:
-        print("Los primeros y últimos 3 goleadores son: \n")
+        print("Los primeros y últimos 3 anotadores cargados son: \n")
         print_goalscorers(control)
     
     if lt.isEmpty(control["model"]["shootouts"]) == False:
-        print("Los primeros y últimos 3 penales son: \n")
+        print("Las primeras y últimas 3 tandas de penales son: \n")
         print_shootouts(control)
         
     
 def sort(control):
     sort_algo = input ("""Ingrese el numero asociado al algoritmo de ordenamiento: \n
-                       1. Selection Sort \n
-                       2. Insertion Sort \n
-                       3. Shell Sort""")
+    1. Selection Sort \n
+    2. Insertion Sort \n
+    3. Shell Sort""")
     
     datos = input("""Ingrese que datos desea ordenar: \n
-                     1. results \n
-                     2. goalscorers \n
-                     3. shootouts \n
-                     4. todos \n""")
+    1. results \n
+    2. goalscorers \n
+    3. shootouts \n
+    4. todos \n""")
     
     
     controller.sort(control, sort_algo, datos)  
@@ -268,7 +277,7 @@ if __name__ == "__main__":
             load_data(control)
             size = controller.get_datasize(control)
             print_data(control)
-            print(f"Se cargaron {size[0]} results, {size[1]} shootouts y {size[2]} goalscorers\n")
+            print(f"Se cargaron {size[0]} resultados, {size[1]} tandas de penal y {size[2]} anotadores\n")
 
         elif int(inputs) == 2:
             print_req_1(control)

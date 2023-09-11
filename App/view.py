@@ -48,7 +48,7 @@ def new_controller():
 def print_menu():
     print("Bienvenido")
     print("1- Cargar información")
-    print("2- Ejecutar Requerimiento 1")
+    print("2- Consultar ultimos partidos jugados por un equipo")
     print("3- Ejecutar Requerimiento 2")
     print("4- Ejecutar Requerimiento 3")
     print("5- Ejecutar Requerimiento 4")
@@ -56,6 +56,7 @@ def print_menu():
     print("7- Ejecutar Requerimiento 6")
     print("8- Ejecutar Requerimiento 7")
     print("9- Ejecutar Requerimiento 8")
+    print("10- Ordenar datos")
     print("0- Salir")
 
 
@@ -81,36 +82,104 @@ def load_data(control):
 
 
 def print_data(control):
-  
-    headers1 = {"date": "Fecha",
-                "home_team": "Equipo local",
-                "away_team": "Equipo visitante",
-                "winner": "Ganador"}
     
-    first_three = lt.subList(control["model"]["results"], 1, 3)
-    
-    last_three = lt.subList(control["model"]["results"], lt.size(control["model"]["results"])-2, 3)
-
-    combined_list = lt.newList("ARRAY_LIST")
-    
-    for i in range(lt.size(first_three)):
-        lt.addLast(combined_list, lt.getElement(first_three, i))
-
-    for i in range(lt.size(last_three)):
-        lt.addLast(combined_list, lt.getElement(last_three, i))
+    def print_results(control):
+        headers1 = {"date": "Fecha",
+                    "home_team": "Equipo local",
+                    "away_team": "Equipo visitante",
+                    "home_score": "Marcador local",
+                    "away_score": "Marcador visitante",
+                    "tournament": "Torneo",
+                    "city": "Ciudad",
+                    "country": "País",
+                    "neutral": "Neutral"}
         
-    print(tabulate(lt.iterator(combined_list), headers1, tablefmt="fancy_grid"))
+        
+        first_three = lt.subList(control["model"]["results"], 1, 3)
+        
+        last_three = lt.subList(control["model"]["results"], lt.size(control["model"]["results"])-2, 3)
 
+        combined_list = lt.newList("ARRAY_LIST")
+        
+        for i in range(lt.size(first_three)):
+            lt.addLast(combined_list, lt.getElement(first_three, i))
 
+        for i in range(lt.size(last_three)):
+            lt.addLast(combined_list, lt.getElement(last_three, i))
+            
+        print(tabulate(lt.iterator(combined_list), headers1, tablefmt="fancy_grid"))
+        
+    def print_goalscorers(control):
+        headers2 = {"date": "Fecha",
+                    "home_team": "Equipo local",
+                    "away_team": "Equipo visitante",
+                    "team": "Equipo",
+                    "scorer": "Anotador",
+                    "minute": "Minuto",
+                    "own_goal": "Autogol",
+                    "penalty": "Penal"}
+        
+        first_three = lt.subList(control["model"]["goalscorers"], 1, 3)
+        
+        last_three = lt.subList(control["model"]["goalscorers"], lt.size(control["model"]["goalscorers"])-2, 3)
+        
+        combined_list = lt.newList("ARRAY_LIST")
+        
+        for i in range(lt.size(first_three)):
+            lt.addLast(combined_list, lt.getElement(first_three, i))
+        
+        for i in range(lt.size(last_three)):
+            lt.addLast(combined_list, lt.getElement(last_three, i))
+        
+        print(tabulate(lt.iterator(combined_list), headers2, tablefmt="fancy_grid"))
 
+    def print_shootouts(control):
+        headers3 = {"date": "Fecha",
+                    "home_team": "Equipo local",
+                    "away_team": "Equipo visitante",
+                    "winner": "Ganador"}
+        
+        first_three = lt.subList(control["model"]["shootouts"], 1, 3)
+        
+        last_three = lt.subList(control["model"]["shootouts"], lt.size(control["model"]["shootouts"])-2, 3)
+        
+        combined_list = lt.newList("ARRAY_LIST")
+        
+        for i in range(lt.size(first_three)):
+            lt.addLast(combined_list, lt.getElement(first_three, i))
+        
+        for i in range(lt.size(last_three)):
+            lt.addLast(combined_list, lt.getElement(last_three, i))
+        
+        print(tabulate(lt.iterator(combined_list), headers3, tablefmt="fancy_grid"))
+
+    if lt.isEmpty(control["model"]["results"]) == False:
+        print("Los primeros y últimos 3 resultados son: \n")
+        print_results(control)
+        
+    if lt.isEmpty(control["model"]["goalscorers"]) == False:
+        print("Los primeros y últimos 3 goleadores son: \n")
+        print_goalscorers(control)
+    
+    if lt.isEmpty(control["model"]["shootouts"]) == False:
+        print("Los primeros y últimos 3 penales son: \n")
+        print_shootouts(control)
+        
+    
 def sort(control):
     sort_algo = input ("""Ingrese el numero asociado al algoritmo de ordenamiento: \n
                        1. Selection Sort \n
                        2. Insertion Sort \n
                        3. Shell Sort""")
     
+    datos = input("""Ingrese que datos desea ordenar: \n
+                     1. results \n
+                     2. goalscorers \n
+                     3. shootouts \n
+                     4. todos \n""")
     
-    controller.sort(control, sort_algo)  
+    
+    controller.sort(control, sort_algo, datos)  
 
 def print_req_1(control):
     

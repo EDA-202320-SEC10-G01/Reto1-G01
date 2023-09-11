@@ -105,8 +105,8 @@ def load_data(control, archivo, tamaño):
 
 # Funciones de ordenamiento
 
-def sort(control, sort_algorithm):
-    model.sort(control["model"]["results"], model.sort_criteria, sort_algorithm)
+def sort(control, sort_algorithm, datos):
+    model.sort(control["model"], sort_algorithm, datos)
     
 # Funciones de consulta sobre el catálogo
 

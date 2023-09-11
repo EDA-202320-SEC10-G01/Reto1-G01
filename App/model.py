@@ -187,7 +187,7 @@ def compare(data_1, data_2):
 # Funciones de ordenamiento
 
 
-def sort_criteria(data_1, data_2):
+def sort_criteria_results(data_1, data_2):
     if data_1["date"] < data_2["date"]:
         return True
     elif data_1["date"] == data_2["date"]:
@@ -195,12 +195,28 @@ def sort_criteria(data_1, data_2):
             return True
     else:
         return False
+    
+def sort_criteria_goalscorers(data_1, data_2):
+    if data_1["date"] < data_2["date"]:
+        return True
+    elif data_1["date"] == data_2["date"]:
+        if data_1["scorer"] < data_2["scorer"]:
+            return True
+    else:
+        return False
+    
+def sort_criteria_shootouts(data_1, data_2):
+    if data_1["date"] < data_2["date"]:
+        return True
+    elif data_1["date"] == data_2["date"]:
+        if data_1["winner"] < data_2["winner"]:
+            return True
+    else:
+        return False
+ 
 
-
-def sort(data_structs, sort_criteria, sort_algorithm):
-    """
-    Función encargada de ordenar la lista con los datos
-    """
+def sorting_algorithm(data_structs, sort_criteria, sort_algorithm):
+    
     if sort_algorithm == "1":
         ins.sort(data_structs, sort_criteria)
     elif sort_algorithm == "2":
@@ -209,3 +225,24 @@ def sort(data_structs, sort_criteria, sort_algorithm):
         sa.sort(data_structs, sort_criteria)
     else:
         print("Algoritmo no válido")
+        
+        
+def sort(data_structs, sort_algorithm, datos):
+    """
+    Función encargada de ordenar la lista con los datos
+    """
+    if datos == "1":
+        sorting_algorithm(data_structs["results"], sort_criteria_results, sort_algorithm)
+    elif datos == "2":
+        sorting_algorithm(data_structs["goalscorers"], sort_criteria_goalscorers, sort_algorithm)
+    elif datos == "3":
+        sorting_algorithm(data_structs["shootouts"], sort_criteria_shootouts, sort_algorithm)
+    elif datos == "4":
+        sorting_algorithm(data_structs["results"], sort_criteria_results, sort_algorithm)
+        sorting_algorithm(data_structs["goalscorers"], sort_criteria_goalscorers, sort_algorithm)
+        sorting_algorithm(data_structs["shootouts"], sort_criteria_shootouts, sort_algorithm)
+    else:
+        print("Opcion no valida")
+        
+        
+

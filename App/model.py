@@ -74,18 +74,6 @@ def add_shootout(data_structs, data):
     
     lt.addLast(data_structs["shootouts"], data)
 
-
-    
-# Funciones de consulta
-
-def get_data(data_structs, id):
-    """
-    Retorna un dato a partir de su ID
-    """
-    #TODO: Crear la función para obtener un dato de una lista
-    pass
-
-
 def data_size(data_structs):
     """
     Retorna el tamaño de la lista de datos
@@ -130,15 +118,13 @@ def req_1(data_structs, n_partidos, equipo, condicion):
     return last_matches
                 
                 
-                
-
-
+            
 def req_2(data_structs):
     """
     Función que soluciona el requerimiento 2
     """
     # TODO: Realizar el requerimiento 2
-    pass
+    
 
 
 def req_3(data_structs):
@@ -202,21 +188,24 @@ def compare(data_1, data_2):
 
 
 def sort_criteria(data_1, data_2):
-    """sortCriteria criterio de ordenamiento para las funciones de ordenamiento
-
-    Args:
-        data1 (_type_): _description_
-        data2 (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """
-    #TODO: Crear función comparadora para ordenar
-    pass
+    if data_1["date"] < data_2["date"]:
+        return True
+    elif data_1["date"] == data_2["date"]:
+        if data_1["country"] < data_2["country"]:
+            return True
+    else:
+        return False
 
 
-def sort(data_structs, sort_criteria):
+def sort(data_structs, sort_criteria, sort_algorithm):
     """
     Función encargada de ordenar la lista con los datos
     """
-    quk.sort(data_structs, sort_criteria)
+    if sort_algorithm == "1":
+        ins.sort(data_structs, sort_criteria)
+    elif sort_algorithm == "2":
+        se.sort(data_structs, sort_criteria)
+    elif sort_algorithm == "3":
+        sa.sort(data_structs, sort_criteria)
+    else:
+        print("Algoritmo no válido")

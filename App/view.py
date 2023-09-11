@@ -61,7 +61,24 @@ def print_menu():
 
 def load_data(control):
     
-    controller.load_data(control)
+    archivo = input("""Ingrese el numero asociado al archivo a cargar: \n
+    1. results \n
+    2. goalscorers \n
+    3. shootouts \n
+    4. todos \n""")
+    
+    tamaño = input("""Ingrese el numero asociado al tamaño de la muestra: \n
+    1. small \n
+    2. 5pct \n
+    3. 10pct \n
+    4. 20pct \n
+    5. 30pct \n
+    6. 50pct \n
+    7. 80pct \n
+    8. large \n""")
+    
+    controller.load_data(control, archivo, tamaño)
+
 
 def print_data(control):
   
@@ -87,7 +104,13 @@ def print_data(control):
 
 
 def sort(control):
-    controller.sort(control)  
+    sort_algo = input ("""Ingrese el numero asociado al algoritmo de ordenamiento: \n
+                       1. Selection Sort \n
+                       2. Insertion Sort \n
+                       3. Shell Sort""")
+    
+    
+    controller.sort(control, sort_algo)  
 
 def print_req_1(control):
     
@@ -169,14 +192,15 @@ if __name__ == "__main__":
     #ciclo del menu
     while working:
         print_menu()
+
         inputs = input('Seleccione una opción para continuar\n')
         if int(inputs) == 1:
             print("Cargando información de los archivos ....\n")
             load_data(control)
-            sort(control)
             size = controller.get_datasize(control)
-            print(f"Se cargaron {size[0]} results, {size[1]} shootouts y {size[2]} goalscorers\n")
             print_data(control)
+            print(f"Se cargaron {size[0]} results, {size[1]} shootouts y {size[2]} goalscorers\n")
+
         elif int(inputs) == 2:
             print_req_1(control)
         elif int(inputs) == 3:
@@ -199,6 +223,10 @@ if __name__ == "__main__":
 
         elif int(inputs) == 9:
             print_req_8(control)
+        
+        elif int(inputs) == 10:
+            sort(control)
+            print_data(control)
 
         elif int(inputs) == 0:
             working = False

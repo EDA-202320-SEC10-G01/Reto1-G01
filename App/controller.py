@@ -45,42 +45,68 @@ def new_controller():
 
 
 
-def load_results(football_data):
+def load_results(football_data, tamaño):
     
-    resultsfile = cf.data_dir + '/football/results-utf8-large.csv'
+    resultsfile = cf.data_dir + f'/football/results-utf8-{tamaño}.csv'
     input_file = csv.DictReader(open(resultsfile, encoding="utf-8"))
     for result in input_file:
         model.add_result(football_data, result)
         
-def load_goalscorers(football_data):
+def load_goalscorers(football_data, tamaño):
     
-    goalscorersfile = cf.data_dir + '/football/goalscorers-utf8-large.csv'
+    goalscorersfile = cf.data_dir + f'/football/goalscorers-utf8-{tamaño}.csv'
     input_file = csv.DictReader(open(goalscorersfile, encoding="utf-8"))
     for goalscorer in input_file:
         model.add_goalscorer(football_data, goalscorer)
     
-def load_shootouts(football_data):
+def load_shootouts(football_data, tamaño):
     
-    shootoutsfile = cf.data_dir + '/football/shootouts-utf8-large.csv'
+    shootoutsfile = cf.data_dir + f'/football/shootouts-utf8-{tamaño}.csv'
     input_file = csv.DictReader(open(shootoutsfile, encoding="utf-8"))
     for shootout in input_file:
         model.add_shootout(football_data, shootout)
         
-def load_data(control):
-    load_results(control["model"])
-    load_goalscorers(control["model"])
-    load_shootouts(control["model"])
+          
+        
+def load_data(control, archivo, tamaño):
+    
+    archivos = ["1", "2", "3", "4"]
+    tamaños = {"1": "small",
+               "2": "5pct",
+               "3": "10pct",
+               "4": "20pct",
+               "5": "30pct",
+               "6": "50pct",
+               "7": "80pct",
+               "8": "large"}
+
+    
+    if archivo not in archivos or tamaño not in list(tamaños.keys()):
+        print("El archivo indicado o el tamaño de la muestra no son válidos")
+    else:
+        if archivo == "1":
+            control["model"]["results"] = model.lt.newList("ARRAY_LIST")
+            load_results(control["model"], tamaños[tamaño])
+        elif archivo == "2":
+            control["model"]["goalscorers"] = model.lt.newList("ARRAY_LIST")
+            load_goalscorers(control["model"], tamaños[tamaño])
+        elif archivo == "3":
+            control["model"]["shootouts"] = model.lt.newList("ARRAY_LIST")
+            load_shootouts(control["model"], tamaños[tamaño])
+        elif archivo == "4":
+            control["model"]["results"] = model.lt.newList("ARRAY_LIST")
+            control["model"]["goalscorers"] = model.lt.newList("ARRAY_LIST")
+            control["model"]["shootouts"] = model.lt.newList("ARRAY_LIST")
+            load_results(control["model"], tamaños[tamaño])
+            load_goalscorers(control["model"], tamaños[tamaño])
+            load_shootouts(control["model"], tamaños[tamaño])
+    
+    
 
 # Funciones de ordenamiento
 
-def sort(control):
-    
-
-    
-    model.sort(control["model"]["results"], lambda x, y: x["date"] > y["date"])
-    model.sort(control["model"]["goalscorers"], lambda x, y: x["date"] > y["date"])
-    model.sort(control["model"]["shootouts"], lambda x, y: x["date"] > y["date"])
-    
+def sort(control, sort_algorithm):
+    model.sort(control["model"]["results"], model.sort_criteria, sort_algorithm)
     
 # Funciones de consulta sobre el catálogo
 

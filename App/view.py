@@ -182,9 +182,9 @@ def sort(control):
     3. Shell Sort""")
     
     datos = input("""Ingrese que datos desea ordenar: \n
-    1. results \n
-    2. goalscorers \n
-    3. shootouts \n
+    1. Resultados \n
+    2. Anotadores \n
+    3. Tandas de penal \n
     4. todos \n""")
     
     

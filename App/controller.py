@@ -1,4 +1,4 @@
-﻿"""
+"""
  * Copyright 2020, Departamento de sistemas y Computación,
  * Universidad de Los Andes
  *
@@ -44,72 +44,78 @@ def new_controller():
 
 
 
-def load_results(football_data):
+def load_results(football_data, tamaño):
     
-    resultsfile = cf.data_dir + '/football/results-utf8-80pct.csv'
+    resultsfile = cf.data_dir + f'/football/results-utf8-{tamaño}.csv'
     input_file = csv.DictReader(open(resultsfile, encoding="utf-8"))
     for result in input_file:
         model.add_result(football_data, result)
         
-def load_goalscorers(football_data):
+def load_goalscorers(football_data, tamaño):
     
-    goalscorersfile = cf.data_dir + '/football/goalscorers-utf8-80pct.csv'
+    goalscorersfile = cf.data_dir + f'/football/goalscorers-utf8-{tamaño}.csv'
     input_file = csv.DictReader(open(goalscorersfile, encoding="utf-8"))
     for goalscorer in input_file:
         model.add_goalscorer(football_data, goalscorer)
     
-def load_shootouts(football_data):
+def load_shootouts(football_data, tamaño):
     
-    shootoutsfile = cf.data_dir + '/football/shootouts-utf8-80pct.csv'
+    shootoutsfile = cf.data_dir + f'/football/shootouts-utf8-{tamaño}.csv'
     input_file = csv.DictReader(open(shootoutsfile, encoding="utf-8"))
     for shootout in input_file:
         model.add_shootout(football_data, shootout)
         
-def load_data(control):
-    load_results(control["model"])
-    load_goalscorers(control["model"])
-    load_shootouts(control["model"])
+          
+        
+def load_data(control, archivo, tamaño):
+    
+    archivos = ["1", "2", "3", "4"]
+    tamaños = {"1": "small",
+               "2": "5pct",
+               "3": "10pct",
+               "4": "20pct",
+               "5": "30pct",
+               "6": "50pct",
+               "7": "80pct",
+               "8": "large"}
+
+    
+    if archivo not in archivos or tamaño not in list(tamaños.keys()):
+        print("El archivo indicado o el tamaño de la muestra no son válidos")
+    else:
+        if archivo == "1":
+            control["model"]["results"] = model.lt.newList("ARRAY_LIST")
+            load_results(control["model"], tamaños[tamaño])
+        elif archivo == "2":
+            control["model"]["goalscorers"] = model.lt.newList("ARRAY_LIST")
+            load_goalscorers(control["model"], tamaños[tamaño])
+        elif archivo == "3":
+            control["model"]["shootouts"] = model.lt.newList("ARRAY_LIST")
+            load_shootouts(control["model"], tamaños[tamaño])
+        elif archivo == "4":
+            control["model"]["results"] = model.lt.newList("ARRAY_LIST")
+            control["model"]["goalscorers"] = model.lt.newList("ARRAY_LIST")
+            control["model"]["shootouts"] = model.lt.newList("ARRAY_LIST")
+            load_results(control["model"], tamaños[tamaño])
+            load_goalscorers(control["model"], tamaños[tamaño])
+            load_shootouts(control["model"], tamaños[tamaño])
+    
+    
 
 # Funciones de ordenamiento
-    Resultsfile = cf.data_dir + "/football/results-utf8-5pct.csv"
-    input_file = csv.DictReader(open(Resultsfile, encoding="utf-8"))
-    for result in input_file:
-        model.add_data_results(footballData, result)
-    return model.data_size(footballData)   
 
-def loadShootouts(footballData):
-    Resultsfile = cf.data_dir + "/football/shootouts-utf8-5pct.csv"
-    input_file = csv.DictReader(open(Resultsfile, encoding="utf-8"))
-    for result in input_file:
-        model.add_data_shootouts(footballData, result)
-    return model.data_size(footballData)    
-
-def loadGoalScorers(footballData):
-    Resultsfile = cf.data_dir + "/football/goalscorers-utf8-5pct.csv"
-    input_file = csv.DictReader(open(Resultsfile, encoding="utf-8"))
-    for result in input_file:
-        model.add_data_goalscorers(footballData, result)
-    return model.data_size(footballData)    
-def sort(control):
-    """
-    Ordena los datos del modelo
-    """
-    #TODO: Llamar la función del modelo para ordenar los datos
-    pass
-
-
+def sort(control, sort_algorithm, datos):
+    model.sort(control["model"], sort_algorithm, datos)
+    
 # Funciones de consulta sobre el catálogo
 
 def get_datasize(control):
     return model.data_size(control["model"])
 
 
-def req_1(control):
-    """
-    Retorna el resultado del requerimiento 1
-    """
-    # TODO: Modificar el requerimiento 1
-    pass
+def req_1(control, n_partidos, equipo, condicion):
+    
+    return model.req_1(control["model"], n_partidos, equipo, condicion)
 
 
 def req_2(control):
@@ -120,51 +126,7 @@ def req_2(control):
     pass
 
 
-def req_3(control):
-    """
-    Retorna el resultado del requerimiento 3
-    """
-    # TODO: Modificar el requerimiento 3
-    pass
 
-
-def req_4(control):
-    """
-    Retorna el resultado del requerimiento 4
-    """
-    # TODO: Modificar el requerimiento 4
-    pass
-
-
-def req_5(control):
-    """
-    Retorna el resultado del requerimiento 5
-    """
-    # TODO: Modificar el requerimiento 5
-    pass
-
-def req_6(control):
-    """
-    Retorna el resultado del requerimiento 6
-    """
-    # TODO: Modificar el requerimiento 6
-    pass
-
-
-def req_7(control):
-    """
-    Retorna el resultado del requerimiento 7
-    """
-    # TODO: Modificar el requerimiento 7
-    pass
-
-
-def req_8(control):
-    """
-    Retorna el resultado del requerimiento 8
-    """
-    # TODO: Modificar el requerimiento 8
-    pass
 
 
 # Funciones para medir tiempos de ejecucion

@@ -1,4 +1,4 @@
-﻿"""
+"""
  * Copyright 2020, Departamento de sistemas y Computación,
  * Universidad de Los Andes
  *
@@ -73,55 +73,6 @@ def add_shootout(data_structs, data):
     
     lt.addLast(data_structs["shootouts"], data)
 
-
-# Funciones para creacion de datos
-
-def new_result(date, home_team, away_team, home_score, away_score, tournament, city, country, neutral):
-    
-    result = {"date": date,
-              "home_team": home_team,
-              "away_team": away_team,
-              "home_score": home_score,
-              "away_score": away_score,
-              "tournament": tournament,
-              "city": city,
-              "country": country,
-              "neutral": neutral}
-    
-    return result
-
-def new_goalscorer(date, home_team, away_team, team, scorer, minute, own_goal, penalty):
-    
-    goalscorer = {"date": date,
-              "home_team": home_team,
-              "away_team": away_team,
-              "team": team,
-              "scorer": scorer,
-              "minute": minute,
-              "own_goal": own_goal,
-              "penalty": penalty}
-    
-    return goalscorer
-
-def new_shootout(date, home_team, away_team, winner):
-        
-        shootout = {"date": date,
-                    "home_team": home_team,
-                    "away_team": away_team,
-                    "winner": winner}
-        
-        return shootout
-    
-# Funciones de consulta
-
-def get_data(data_structs, id):
-    """
-    Retorna un dato a partir de su ID
-    """
-    #TODO: Crear la función para obtener un dato de una lista
-    pass
-
-
 def data_size(data_structs):
     """
     Retorna el tamaño de la lista de datos
@@ -134,20 +85,45 @@ def data_size(data_structs):
     
 
 
-def Listar_ultimos_partidos_equipos_segun_posicion(data_structs):
+def req_1(data_structs, n_partidos, equipo, condicion):
+    
     """
     Función que soluciona el requerimiento 1
     """
-    # TODO: Realizar el requerimiento 1
-    pass
-
-
+    
+    def is_team_local(result, equipo):
+        if result["neutral"] == "False" and result["home_team"] == equipo:
+            return True
+        else:
+            return False
+        
+    last_matches = lt.newList("ARRAY_LIST")
+    counter = 1
+    while last_matches["size"] < n_partidos:
+            result = lt.getElement(data_structs["results"], counter)
+            counter += 1
+            if equipo == result["home_team"] or equipo == result["away_team"]:
+                if condicion == "indiferente":
+                    lt.addLast(last_matches, result)   
+                elif condicion == "local":
+                    if is_team_local(result, equipo):
+                        lt.addLast(last_matches, result) 
+                elif condicion == "visitante":
+                    if not is_team_local(result, equipo):
+                        lt.addLast(last_matches, result) 
+            else:
+                pass
+            
+    return last_matches
+                
+                
+            
 def req_2(data_structs):
     """
     Función que soluciona el requerimiento 2
     """
     # TODO: Realizar el requerimiento 2
-    pass
+    
 
 
 def req_3(data_structs):
@@ -210,23 +186,62 @@ def compare(data_1, data_2):
 # Funciones de ordenamiento
 
 
-def sort_criteria(data_1, data_2):
-    """sortCriteria criterio de ordenamiento para las funciones de ordenamiento
+def sort_criteria_results(data_1, data_2):
+    if data_1["date"] < data_2["date"]:
+        return True
+    elif data_1["date"] == data_2["date"]:
+        if data_1["country"] < data_2["country"]:
+            return True
+    else:
+        return False
+    
+def sort_criteria_goalscorers(data_1, data_2):
+    if data_1["date"] < data_2["date"]:
+        return True
+    elif data_1["date"] == data_2["date"]:
+        if data_1["scorer"] < data_2["scorer"]:
+            return True
+    else:
+        return False
+    
+def sort_criteria_shootouts(data_1, data_2):
+    if data_1["date"] < data_2["date"]:
+        return True
+    elif data_1["date"] == data_2["date"]:
+        if data_1["winner"] < data_2["winner"]:
+            return True
+    else:
+        return False
+ 
 
-    Args:
-        data1 (_type_): _description_
-        data2 (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """
-    #TODO: Crear función comparadora para ordenar
-    pass
-
-
-def sort(data_structs):
+def sorting_algorithm(data_structs, sort_criteria, sort_algorithm):
+    
+    if sort_algorithm == "1":
+        ins.sort(data_structs, sort_criteria)
+    elif sort_algorithm == "2":
+        se.sort(data_structs, sort_criteria)
+    elif sort_algorithm == "3":
+        sa.sort(data_structs, sort_criteria)
+    else:
+        print("Algoritmo no válido")
+        
+        
+def sort(data_structs, sort_algorithm, datos):
     """
     Función encargada de ordenar la lista con los datos
     """
-    #TODO: Crear función de ordenamiento
-    pass
+    if datos == "1":
+        sorting_algorithm(data_structs["results"], sort_criteria_results, sort_algorithm)
+    elif datos == "2":
+        sorting_algorithm(data_structs["goalscorers"], sort_criteria_goalscorers, sort_algorithm)
+    elif datos == "3":
+        sorting_algorithm(data_structs["shootouts"], sort_criteria_shootouts, sort_algorithm)
+    elif datos == "4":
+        sorting_algorithm(data_structs["results"], sort_criteria_results, sort_algorithm)
+        sorting_algorithm(data_structs["goalscorers"], sort_criteria_goalscorers, sort_algorithm)
+        sorting_algorithm(data_structs["shootouts"], sort_criteria_shootouts, sort_algorithm)
+    else:
+        print("Opcion no valida")
+        
+        
+

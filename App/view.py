@@ -112,10 +112,10 @@ def print_data(control):
         combined_list = lt.newList("ARRAY_LIST")
         
         for i in range(lt.size(first_three)):
-            lt.addLast(combined_list, lt.getElement(first_three, i))
+            lt.addLast(combined_list, lt.getElement(first_three, i+1))
 
         for i in range(lt.size(last_three)):
-            lt.addLast(combined_list, lt.getElement(last_three, i))
+            lt.addLast(combined_list, lt.getElement(last_three, i+1))
             
         print(tabulate(lt.iterator(combined_list), headers1, tablefmt="fancy_grid"))
         

@@ -32,7 +32,7 @@ This repository is part of the data structure and algorithms (#EDA) teaching fra
 
 The students edit this section to add their names, Uniandes emails, and specify which project functionality of the project they will implement.
 
-1. **Req No 4**Andres Leonardo Beltran Contreras, Student No. 1 al.beltran@uniandes.edu.co, Student No. 1 owned functionality.
+1. **Req No 4**Andres Leonardo Beltrán Contreras, Student No. 1 al.beltran@uniandes.edu.co, Student No. 1 owned functionality.
 1. **Req No 5**Student No. 2 José Alejandro Rojas Zapata, Student No. 2 j.rojasz@uniandes.edu.co, Student No. 2 owned functionality.
 1.**Req No 3** Student No. 3 Tomas Acosta Romero , Student No. 3 t.acostar@uniandes.edu.co, Student No. 3 owned functionality.
 

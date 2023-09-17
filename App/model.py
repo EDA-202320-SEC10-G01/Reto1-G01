@@ -85,35 +85,45 @@ def data_size(data_structs):
     
 
 
-def req_1(data_structs):
+def req_1(data_structs, equipo, condicion, n_partidos):
     """
     Función que soluciona el requerimiento 1
     """
+    def es_equipo_local(partido):
+        return partido["home_team"] == equipo
     
-    def is_team_local(result, equipo):
-        if result["neutral"] == "False" and result["home_team"] == equipo:
-            return True
-        else:
-            return False
-        
-    last_matches = lt.newList("ARRAY_LIST")
-    counter = lt.size(data_structs["results"])
-    while last_matches["size"] < n_partidos:
-            result = lt.getElement(data_structs["results"], counter)
-            counter -= 1
-            if equipo == result["home_team"] or equipo == result["away_team"]:
-                if condicion == "indiferente":
-                    lt.addLast(last_matches, result)   
-                elif condicion == "local":
-                    if is_team_local(result, equipo):
-                        lt.addLast(last_matches, result) 
-                elif condicion == "visitante":
-                    if not is_team_local(result, equipo):
-                        lt.addLast(last_matches, result) 
+    
+    partidos_por_equipo = st.newStack()
+    
+    for i in lt.iterator(data_structs["results"]):
+        if i["home_team"] == equipo or i["away_team"] == equipo:
+            if condicion == 3:
+                st.push(partidos_por_equipo, i)
+            elif condicion == 1:
+                if es_equipo_local(i):
+                    st.push(partidos_por_equipo, i)
+            elif condicion == 2:
+                if not es_equipo_local(i):
+                    st.push(partidos_por_equipo, i)
             else:
-                pass
+                print("Condicion no valida")
             
-    return last_matches
+    partidos_encontrados = st.size(partidos_por_equipo)
+    partidos_a_mostrar = lt.newList("ARRAY_LIST")
+    
+    if n_partidos <= partidos_encontrados:
+        for i in range(1, n_partidos + 1):
+            lt.addLast(partidos_a_mostrar, st.pop(partidos_por_equipo))
+            
+    else:
+        for i in range(1, partidos_encontrados + 1):
+            lt.addLast(partidos_a_mostrar, st.pop(partidos_por_equipo))
+            
+    return partidos_a_mostrar, partidos_encontrados
+        
+        
+    
+    
                 
                 
             
@@ -121,7 +131,6 @@ def req_2(data_structs):
     """
     Función que soluciona el requerimiento 2
     """
-    # TODO: Realizar el requerimiento 2
     
 
 

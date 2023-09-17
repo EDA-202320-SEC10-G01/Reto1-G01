@@ -91,10 +91,33 @@ def load_data(control):
         pass
 
 
+
+def print_table(data, headers):
+    
+    if lt.size(data) == 0:
+        print("No se encontraron datos para mostrar")
+
+    elif lt.size(data) > 6:
+        first_three = lt.subList(data, 1, 3) 
+        last_three = lt.subList(data, lt.size(data)-2, 3)
+        combined_list = lt.newList("ARRAY_LIST")
+        
+        for i in lt.iterator(first_three):
+            lt.addLast(combined_list, i)
+        
+        for i in lt.iterator(last_three):
+            lt.addLast(combined_list, i)
+        
+        print(f"De {lt.size(data)} elementos, se muestran los primeros y ultimos 3\n")
+        print(tabulate(lt.iterator(combined_list), headers, tablefmt="fancy_grid"))
+        
+    else:
+        print(f"Se encontraron {lt.size(data)} elementos mostrados a continuacion\n")
+        print(tabulate(lt.iterator(data), headers, tablefmt="fancy_grid"))
+    
 def print_data(control):
     
-    def print_results(control):
-        headers1 = {"date": "Fecha",
+    headers_results = {"date": "Fecha",
                     "home_team": "Equipo local",
                     "away_team": "Equipo visitante",
                     "home_score": "Marcador local",
@@ -103,24 +126,7 @@ def print_data(control):
                     "city": "Ciudad",
                     "country": "País",
                     "neutral": "Neutral"}
-        
-        
-        first_three = lt.subList(control["model"]["results"], 1, 3)
-        
-        last_three = lt.subList(control["model"]["results"], lt.size(control["model"]["results"])-2, 3)
-
-        combined_list = lt.newList("ARRAY_LIST")
-        
-        for i in range(lt.size(first_three)):
-            lt.addLast(combined_list, lt.getElement(first_three, i+1))
-
-        for i in range(lt.size(last_three)):
-            lt.addLast(combined_list, lt.getElement(last_three, i+1))
-            
-        print(tabulate(lt.iterator(combined_list), headers1, tablefmt="fancy_grid"))
-        
-    def print_goalscorers(control):
-        headers2 = {"date": "Fecha",
+    headers_goalscorer = {"date": "Fecha",
                     "home_team": "Equipo local",
                     "away_team": "Equipo visitante",
                     "team": "Equipo",
@@ -128,52 +134,20 @@ def print_data(control):
                     "minute": "Minuto",
                     "own_goal": "Autogol",
                     "penalty": "Penal"}
-        
-        first_three = lt.subList(control["model"]["goalscorers"], 1, 3)
-        
-        last_three = lt.subList(control["model"]["goalscorers"], lt.size(control["model"]["goalscorers"])-2, 3)
-        
-        combined_list = lt.newList("ARRAY_LIST")
-        
-        for i in range(lt.size(first_three)):
-            lt.addLast(combined_list, lt.getElement(first_three, i))
-        
-        for i in range(lt.size(last_three)):
-            lt.addLast(combined_list, lt.getElement(last_three, i))
-        
-        print(tabulate(lt.iterator(combined_list), headers2, tablefmt="fancy_grid"))
-
-    def print_shootouts(control):
-        headers3 = {"date": "Fecha",
+    headers_shootouts = {"date": "Fecha",
                     "home_team": "Equipo local",
                     "away_team": "Equipo visitante",
                     "winner": "Ganador"}
-        
-        first_three = lt.subList(control["model"]["shootouts"], 1, 3)
-        
-        last_three = lt.subList(control["model"]["shootouts"], lt.size(control["model"]["shootouts"])-2, 3)
-        
-        combined_list = lt.newList("ARRAY_LIST")
-        
-        for i in range(lt.size(first_three)):
-            lt.addLast(combined_list, lt.getElement(first_three, i))
-        
-        for i in range(lt.size(last_three)):
-            lt.addLast(combined_list, lt.getElement(last_three, i))
-        
-        print(tabulate(lt.iterator(combined_list), headers3, tablefmt="fancy_grid"))
+    
 
     if lt.isEmpty(control["model"]["results"]) == False:
-        print("Los primeros y últimos 3 resultados cargados son: \n")
-        print_results(control)
+        print_table(control["model"]["results"], headers_results)
         
     if lt.isEmpty(control["model"]["goalscorers"]) == False:
-        print("Los primeros y últimos 3 anotadores cargados son: \n")
-        print_goalscorers(control)
+        print_table(control["model"]["goalscorers"], headers_goalscorer)
     
     if lt.isEmpty(control["model"]["shootouts"]) == False:
-        print("Las primeras y últimas 3 tandas de penales son: \n")
-        print_shootouts(control)
+        print_table(control["model"]["shootouts"], headers_shootouts)
         
     
 def sort(control):
@@ -193,14 +167,27 @@ def sort(control):
 
 def print_req_1(control):
     
+    headers = {"date": "Fecha",
+                    "home_team": "Equipo local",
+                    "away_team": "Equipo visitante",
+                    "home_score": "Marcador local",
+                    "away_score": "Marcador visitante",
+                    "tournament": "Torneo",
+                    "city": "Ciudad",
+                    "country": "País"}
+    
     equipo = input("Ingrese el nombre del equipo: \n")
     n_partidos = int(input("Ingrese el número de partidos: \n"))
-    condicion = input("Ingrese la condición: \n")
+    condicion = int(input("""Ingrese el numero asociado a la condición: \n
+    1. Local \n
+    2. Visitante \n
+    3. Indiferente \n"""))
     
-    matches = controller.req_1(control, n_partidos, equipo, condicion)
     
-    print("Los partidos son: \n")
-    print(tabulate(lt.iterator(matches), tablefmt="fancy_grid"))
+    partidos_por_equipo, partidos_encontrados = controller.req_1(control, equipo, condicion, n_partidos)
+
+    print(f"Se encontraron {partidos_encontrados} partidos que cumplen con la condiciónes dadas, de los cuales se tomaron los {lt.size(partidos_por_equipo)} mas recientes \n)")
+    print_table(partidos_por_equipo, headers)
 
 def print_tipo_dato_abstracto(control):
     

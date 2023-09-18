@@ -49,8 +49,8 @@ def print_menu():
     print("Bienvenido")
     print("1- Cargar información")
     print("2- Consultar ultimos partidos jugados por un equipo")
-    print("3- Ejecutar Requerimiento 2")
-    print("4- Ejecutar Requerimiento 3")
+    print("3- Consultar goles de un jugador")
+    print("4- Consultar partidos de un equipo en un rango de fechas")
     print("5- Ejecutar Requerimiento 4")
     print("6- Ejecutar Requerimiento 5")
     print("7- Ejecutar Requerimiento 6")
@@ -186,9 +186,85 @@ def print_req_1(control):
     
     partidos_por_equipo, partidos_encontrados = controller.req_1(control, equipo, condicion, n_partidos)
 
-    print(f"Se encontraron {partidos_encontrados} partidos que cumplen con la condiciónes dadas, de los cuales se tomaron los {lt.size(partidos_por_equipo)} mas recientes \n)")
+    print("\n=============== Datos del usuario ==================")
+    print("Nombre del equipo: ", equipo)
+    print("Numero de partidos: ", n_partidos)
+    print("Condicion: ", condicion)
+    
+    print("\n=============== Respuesta del programa ==================")
+    print("Numero de partidos encontrados: ", partidos_encontrados)
+    print(f"Seleccionando {lt.size(partidos_por_equipo)} partidos")
+    
     print_table(partidos_por_equipo, headers)
 
+
+def print_req_2(control):
+    
+    headers = {"date": "Fecha",
+               "home_team": "Equipo local",
+               "away_team": "Equipo visitante",
+               "team": "Equipo",
+               "scorer": "Anotador",
+               "minute": "Minuto",
+               "own_goal": "Autogol",
+               "penalty": "Penal"}
+    
+    n_goles = int(input("Ingrese el número de goles: \n"))
+    jugador = input("Ingrese el nombre del jugador: \n")
+    
+    goles_a_mostrar, goles_encontrados = controller.req_2(control, n_goles, jugador)
+    
+    print("\n=============== Datos del usuario ==================")
+    print("Numero de goles: ", n_goles)
+    print("Nombre del jugador: ", jugador)
+    
+    print("\n=============== Respuesta del programa ==================")
+    print("Numero de goles encontrados: ", goles_encontrados)
+    print(f"Seleccionando {lt.size(goles_a_mostrar)} goles")
+
+    print_table(goles_a_mostrar, headers)
+    
+def print_req_3(control):
+    
+    headers = {"date": "Fecha",
+                    "home_team": "Equipo local",
+                    "away_team": "Equipo visitante",
+                    "home_score": "Marcador local",
+                    "away_score": "Marcador visitante",
+                    "tournament": "Torneo",
+                    "city": "Ciudad",
+                    "country": "País"}
+    
+    año_inicial = int(input("Ingrese el año inicial: \n"))
+    mes_inicial = int(input("Ingrese el mes inicial: \n"))
+    dia_inicial = int(input("Ingrese el dia inicial: \n"))
+    
+    año_final = int(input("Ingrese el año final: \n"))
+    mes_final = int(input("Ingrese el mes final: \n"))
+    dia_final = int(input("Ingrese el dia final: \n"))
+    
+    equipo = input("Ingrese el nombre del equipo: \n")
+    
+    fecha_inicial = f"{año_inicial}-{mes_inicial}-{dia_inicial}"
+    fecha_final = f"{año_final}-{mes_final}-{dia_final}"
+    
+    partidos_por_equipo = controller.req_3(control, equipo, fecha_inicial, fecha_final)
+    
+    print("\n=============== Datos del usuario ==================")
+    print("Fecha inicial: ", fecha_inicial)
+    print("Fecha final: ", fecha_final)
+    print("Nombre del equipo: ", equipo)
+    
+    print("\n=============== Respuesta del programa ==================")
+    print(f"Seleccionando {lt.size(partidos_por_equipo)} partidos")
+    
+    print_table(partidos_por_equipo, headers)
+    
+    
+    
+    
+    
+    
 def print_tipo_dato_abstracto(control):
     
     tipo = input("""Ingrese el tipo de dato que desea para representar la listas de datos: \n

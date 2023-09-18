@@ -137,14 +137,17 @@ def req_1(control, n_partidos, equipo, condicion):
     return model.req_1(control["model"], n_partidos, equipo, condicion)
 
 
-def req_2(control):
+def req_2(control, n_goles, jugador):
     """
     Retorna el resultado del requerimiento 2
     """
-    # TODO: Modificar el requerimiento 2
-    pass
+    return model.req_2(control["model"], n_goles, jugador)
 
-
+def req_3(control, equipo, fecha_inicial, fecha_final):
+    """
+    Retorna el resultado del requerimiento 3
+    """
+    return model.req_3(control["model"], equipo, fecha_inicial, fecha_final)
 
 
 

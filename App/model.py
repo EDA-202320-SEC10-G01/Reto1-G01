@@ -84,6 +84,7 @@ def data_size(data_structs):
     return results_size, shootouts_size, goalscorers_size
     
 
+#Funciones de los requerimientos
 
 def req_1(data_structs, equipo, condicion, n_partidos):
     """
@@ -120,78 +121,43 @@ def req_1(data_structs, equipo, condicion, n_partidos):
             lt.addLast(partidos_a_mostrar, st.pop(partidos_por_equipo))
             
     return partidos_a_mostrar, partidos_encontrados
-        
-        
+                   
+def req_2(data_structs, n_goles, jugador):
     
-    
-                
-                
+    goles_marcados = lt.newList("ARRAY_LIST")
+
+    for i in lt.iterator(data_structs["goalscorers"]):
+        if i["scorer"] == jugador:
+            lt.addLast(goles_marcados, i)
             
-def req_2(data_structs):
-    """
-    Función que soluciona el requerimiento 2
-    """
+    goles_encontrados = lt.size(goles_marcados)
+    
+    if n_goles <= goles_encontrados:
+        goles_a_mostrar = lt.subList(goles_marcados, 1, n_goles)
+        
+    else:
+        goles_a_mostrar = lt.subList(goles_marcados, 1, goles_encontrados)
+        
+    return goles_a_mostrar, goles_encontrados
+        
+def req_3(data_structs, equipo, fecha_inicial, fecha_final):
+
+    partidos_por_equipo = lt.newList("ARRAY_LIST")
+    
+    for i in lt.iterator(data_structs["results"]):
+        if i["date"] >= fecha_inicial and i["date"] <= fecha_final:
+            if i["home_team"] == equipo or i["away_team"] == equipo:
+                lt.addLast(partidos_por_equipo, i)
+                
+    return partidos_por_equipo
+        
+    
     
 
 
-def req_3(data_structs):
-    """
-    Función que soluciona el requerimiento 3
-    """
-    # TODO: Realizar el requerimiento 3
-    pass
 
 
-def req_4(data_structs):
-    """
-    Función que soluciona el requerimiento 4
-    """
-    # TODO: Realizar el requerimiento 4
-    pass
-
-
-def req_5(data_structs):
-    """
-    Función que soluciona el requerimiento 5
-    """
-    # TODO: Realizar el requerimiento 5
-    pass
-
-
-def req_6(data_structs):
-    """
-    Función que soluciona el requerimiento 6
-    """
-    # TODO: Realizar el requerimiento 6
-    pass
-
-
-def req_7(data_structs):
-    """
-    Función que soluciona el requerimiento 7
-    """
-    # TODO: Realizar el requerimiento 7
-    pass
-
-
-def req_8(data_structs):
-    """
-    Función que soluciona el requerimiento 8
-    """
-    # TODO: Realizar el requerimiento 8
-    pass
-
-
-# Funciones utilizadas para comparar elementos dentro de una lista
-
-def compare(data_1, data_2):
-    """
-    Función encargada de comparar dos datos
-    """
-    #TODO: Crear función comparadora de la lista
-    pass
-
-# Funciones de ordenamiento
+#Funciones de ordenamiento
 
 
 def sort_criteria_results(data_1, data_2):
@@ -207,7 +173,7 @@ def sort_criteria_goalscorers(data_1, data_2):
     if data_1["date"] < data_2["date"]:
         return True
     elif data_1["date"] == data_2["date"]:
-        if data_1["scorer"] < data_2["scorer"]:
+        if data_1["minute"] < data_2["minute"]:
             return True
     else:
         return False

@@ -235,24 +235,22 @@ def print_req_3(control):
                     "city": "Ciudad",
                     "country": "País"}
     
-    año_inicial = int(input("Ingrese el año inicial: \n"))
-    mes_inicial = int(input("Ingrese el mes inicial: \n"))
-    dia_inicial = int(input("Ingrese el dia inicial: \n"))
+    año_inicial = input("Ingrese el año inicial: \n")
+    mes_inicial = input("Ingrese el mes inicial: \n")
+    dia_inicial = input("Ingrese el dia inicial: \n")
     
-    año_final = int(input("Ingrese el año final: \n"))
-    mes_final = int(input("Ingrese el mes final: \n"))
-    dia_final = int(input("Ingrese el dia final: \n"))
+    año_final = input("Ingrese el año final: \n")
+    mes_final = input("Ingrese el mes final: \n")
+    dia_final = input("Ingrese el dia final: \n")
     
     equipo = input("Ingrese el nombre del equipo: \n")
     
-    fecha_inicial = f"{año_inicial}-{mes_inicial}-{dia_inicial}"
-    fecha_final = f"{año_final}-{mes_final}-{dia_final}"
     
-    partidos_por_equipo = controller.req_3(control, equipo, fecha_inicial, fecha_final)
+    partidos_por_equipo = controller.req_3(control, equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
     
     print("\n=============== Datos del usuario ==================")
-    print("Fecha inicial: ", fecha_inicial)
-    print("Fecha final: ", fecha_final)
+    print(f"Fecha inicial: {año_inicial}-{mes_inicial}-{dia_inicial}")
+    print(f"Fecha final: {año_final}-{mes_final}-{dia_final}")
     print("Nombre del equipo: ", equipo)
     
     print("\n=============== Respuesta del programa ==================")
@@ -260,6 +258,37 @@ def print_req_3(control):
     
     print_table(partidos_por_equipo, headers)
     
+def print_req_4(control):
+    
+    headers = {"date": "Fecha",
+                    "home_team": "Equipo local",
+                    "away_team": "Equipo visitante",
+                    "penalties": "Tanda de penales",
+                    "penalty_winner": "Ganador"}
+    
+    año_inicial = input("Ingrese el año inicial: \n")
+    mes_inicial = input("Ingrese el mes inicial: \n")
+    dia_inicial = input("Ingrese el dia inicial: \n")
+    
+    año_final = input("Ingrese el año final: \n")
+    mes_final = input("Ingrese el mes final: \n")
+    dia_final = input("Ingrese el dia final: \n")
+    
+    torneo = input("Ingrese el nombre del torneo: \n")
+    
+    partidos_por_torneo, numero_paises, numero_ciudades = controller.req_4(control, torneo, fecha_inicial, fecha_final)
+    
+    print("\n=============== Datos del usuario ==================")
+    print(f"Fecha inicial: {año_inicial}-{mes_inicial}-{dia_inicial}")
+    print(f"Fecha final: {año_final}-{mes_final}-{dia_final}")
+    print("Nombre del torneo: ", torneo)
+    
+    print("\n=============== Respuesta del programa ==================")
+    print("Numero de partidos encontrados: ", lt.size(partidos_por_torneo))
+    print("Numero de paises encontrados: ", numero_paises)
+    print("Numero de ciudades encontradas: ", numero_ciudades)
+    
+    print_table(partidos_por_torneo, headers)
     
     
     

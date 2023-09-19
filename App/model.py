@@ -140,24 +140,55 @@ def req_2(data_structs, n_goles, jugador):
         
     return goles_a_mostrar, goles_encontrados
         
-def req_3(data_structs, equipo, fecha_inicial, fecha_final):
+def req_3(data_structs, equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
 
     partidos_por_equipo = lt.newList("ARRAY_LIST")
     
     for i in lt.iterator(data_structs["results"]):
-        if i["date"] >= fecha_inicial and i["date"] <= fecha_final:
+        fecha = i["date"].split("-")
+        if revisar_intervalo(fecha[2], fecha[1], fecha[0], dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final):
             if i["home_team"] == equipo or i["away_team"] == equipo:
                 lt.addLast(partidos_por_equipo, i)
                 
     return partidos_por_equipo
+
+
+def req_4(data_structs, torneo, fecha_inicial, fecha_final):
         
+    #Funcion que retorna una lista con los partidos jugados en un torneo durante un periodo especifico
+    
+    pass
+                    
+
+
+def comparar_fechas(primer_dia, primer_mes, primer_año, segundo_dia, segundo_mes, segundo_año):
+    if int(primer_año) < int(segundo_año):
+        return "menor"
+    elif int(primer_año) == int(segundo_año):
+        if int(primer_mes) < int(segundo_mes):
+            return "menor"
+        elif int(primer_mes) == int(segundo_mes):
+            if int(primer_dia) < int(segundo_dia):
+                return "menor"
+            elif int(primer_dia) == int(segundo_dia):
+                return "igual"
+            else:
+                return "mayor"
+        else:
+            return "mayor"
+    else:
+        return "mayor"
     
     
-
-
-
-
-#Funciones de ordenamiento
+def revisar_intervalo(dia, mes, año, dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final):
+    
+    if comparar_fechas(dia, mes, año, dia_inicial, mes_inicial, año_inicial) == "mayor" and comparar_fechas(dia, mes, año, dia_final, mes_final, año_final) == "menor":
+        return True
+    elif comparar_fechas(dia, mes, año, dia_inicial, mes_inicial, año_inicial) == "igual" or comparar_fechas(dia, mes, año, dia_final, mes_final, año_final) == "igual":
+        return True
+    else:
+        return False
+    
 
 
 def sort_criteria_results(data_1, data_2):

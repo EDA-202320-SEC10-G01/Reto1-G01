@@ -143,11 +143,17 @@ def req_2(control, n_goles, jugador):
     """
     return model.req_2(control["model"], n_goles, jugador)
 
-def req_3(control, equipo, fecha_inicial, fecha_final):
+def req_3(control, equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
     """
     Retorna el resultado del requerimiento 3
     """
-    return model.req_3(control["model"], equipo, fecha_inicial, fecha_final)
+    return model.req_3(control["model"], equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+
+
+def req_4(control, torneo, fecha_inicial, fecha_final):
+    
+    return model.req_4(control["model"], torneo, fecha_inicial, fecha_final)
+    
 
 
 

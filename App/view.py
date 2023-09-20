@@ -29,6 +29,8 @@ from DISClib.ADT import queue as qu
 assert cf
 from tabulate import tabulate
 import traceback
+import threading
+
 
 """
 La vista se encarga de la interacción con el usuario
@@ -42,9 +44,6 @@ def new_controller():
     
     return controller.new_controller()
     
-    
-
-
 def print_menu():
     print("Bienvenido")
     print("1- Cargar información")
@@ -60,6 +59,7 @@ def print_menu():
     print("11- Ordenar datos")
     print("0- Salir")
 
+#Funciones para cargar los datos y ordenarlos
 
 def load_data(control):
     
@@ -90,7 +90,24 @@ def load_data(control):
     else:
         pass
 
+def sort(control):
+    sort_algo = input ("""Ingrese el numero asociado al algoritmo de ordenamiento: \n
+    1. Selection Sort \n
+    2. Insertion Sort \n
+    3. Shell Sort \n
+    4. Merge Sort \n
+    5. Quick Sort \n""")
+    
+    datos = input("""Ingrese que datos desea ordenar: \n
+    1. Resultados \n
+    2. Anotadores \n
+    3. Tandas de penal \n
+    4. todos \n""")
+    
+    
+    controller.sort(control, sort_algo, datos)  
 
+#Funciones para imprimir las tablas y los datos
 
 def print_table(data, headers):
     
@@ -148,22 +165,8 @@ def print_data(control):
     
     if lt.isEmpty(control["model"]["shootouts"]) == False:
         print_table(control["model"]["shootouts"], headers_shootouts)
-        
-    
-def sort(control):
-    sort_algo = input ("""Ingrese el numero asociado al algoritmo de ordenamiento: \n
-    1. Selection Sort \n
-    2. Insertion Sort \n
-    3. Shell Sort \n""")
-    
-    datos = input("""Ingrese que datos desea ordenar: \n
-    1. Resultados \n
-    2. Anotadores \n
-    3. Tandas de penal \n
-    4. todos \n""")
-    
-    
-    controller.sort(control, sort_algo, datos)  
+
+#Funciones para imprimir los requerimientos
 
 def print_req_1(control):
     
@@ -196,7 +199,6 @@ def print_req_1(control):
     print(f"Seleccionando {lt.size(partidos_por_equipo)} partidos")
     
     print_table(partidos_por_equipo, headers)
-
 
 def print_req_2(control):
     
@@ -289,9 +291,7 @@ def print_req_4(control):
     print("Numero de ciudades encontradas: ", numero_ciudades)
     
     print_table(partidos_por_torneo, headers)
-    
-    
-    
+      
     
     
 def print_tipo_dato_abstracto(control):
@@ -307,6 +307,13 @@ control = new_controller()
 
 # main del reto
 if __name__ == "__main__":
+    
+    default_limit = 1000
+    threading.stack_size(67108864*2)
+    sys.setrecursionlimit(default_limit*1000000)
+    thread = threading.Thread()
+    thread.start()
+    
     """
     Menu principal
     """

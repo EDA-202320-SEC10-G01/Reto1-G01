@@ -91,7 +91,7 @@ def req_1(data_structs, equipo, condicion, n_partidos):
     Función que soluciona el requerimiento 1
     """
     def es_equipo_local(partido):
-        return partido["home_team"] == equipo
+        return (partido["home_team"] == equipo and partido["neutral"] == "False")
     
     
     partidos_por_equipo = st.newStack()
@@ -192,32 +192,46 @@ def revisar_intervalo(dia, mes, año, dia_inicial, mes_inicial, año_inicial, di
 
 
 def sort_criteria_results(data_1, data_2):
-    if data_1["date"] < data_2["date"]:
+    
+    fecha_1 = data_1["date"].split("-")
+    fecha_2 = data_2["date"].split("-")
+    
+    if comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "menor":
         return True
-    elif data_1["date"] == data_2["date"]:
-        if data_1["country"] < data_2["country"]:
+    elif comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "igual":
+        if data_1["home_team"] < data_2["home_team"]:
             return True
     else:
         return False
     
 def sort_criteria_goalscorers(data_1, data_2):
-    if data_1["date"] < data_2["date"]:
+    
+    fecha_1 = data_1["date"].split("-")
+    fecha_2 = data_2["date"].split("-")
+    
+    if comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "menor":
         return True
-    elif data_1["date"] == data_2["date"]:
-        if data_1["minute"] < data_2["minute"]:
-            return True
+    elif comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "igual":
+        if data_1["home_team"] < data_2["home_team"]:
+            return True        
+    else:  
+        return False
+    
+    
+def sort_criteria_shootouts(data_1, data_2):
+    
+    fecha_1 = data_1["date"].split("-")
+    fecha_2 = data_2["date"].split("-")
+    
+    if comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "menor":
+        return True
+    elif comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "igual":
+        if data_1["home_team"] < data_2["home_team"]:
+            return True    
     else:
         return False
     
-def sort_criteria_shootouts(data_1, data_2):
-    if data_1["date"] < data_2["date"]:
-        return True
-    elif data_1["date"] == data_2["date"]:
-        if data_1["winner"] < data_2["winner"]:
-            return True
-    else:
-        return False
- 
+    
 
 def sorting_algorithm(data_structs, sort_criteria, sort_algorithm):
     
@@ -227,6 +241,10 @@ def sorting_algorithm(data_structs, sort_criteria, sort_algorithm):
         se.sort(data_structs, sort_criteria)
     elif sort_algorithm == "3":
         sa.sort(data_structs, sort_criteria)
+    elif sort_algorithm == "4":
+        merg.sort(data_structs, sort_criteria)
+    elif sort_algorithm == "5":
+        quk.sort(data_structs, sort_criteria)
     else:
         print("Algoritmo no válido")
         

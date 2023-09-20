@@ -153,11 +153,10 @@ def req_3(data_structs, equipo, año_inicial, mes_inicial, dia_inicial, año_fin
     return partidos_por_equipo
 
 
-def req_4(data_structs, torneo, fecha_inicial, fecha_final):
-        
-    #Funcion que retorna una lista con los partidos jugados en un torneo durante un periodo especifico
     
-    pass
+                    
+            
+    
                     
 
 

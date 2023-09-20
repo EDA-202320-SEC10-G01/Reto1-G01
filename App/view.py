@@ -110,7 +110,7 @@ def sort(control):
 #Funciones para imprimir las tablas y los datos
 
 def print_table(data, headers):
-    
+
     if lt.size(data) == 0:
         print("No se encontraron datos para mostrar")
 
@@ -131,6 +131,8 @@ def print_table(data, headers):
     else:
         print(f"Se encontraron {lt.size(data)} elementos mostrados a continuacion\n")
         print(tabulate(lt.iterator(data), headers, tablefmt="fancy_grid"))
+
+        
     
 def print_data(control):
     
@@ -260,37 +262,7 @@ def print_req_3(control):
     
     print_table(partidos_por_equipo, headers)
     
-def print_req_4(control):
-    
-    headers = {"date": "Fecha",
-                    "home_team": "Equipo local",
-                    "away_team": "Equipo visitante",
-                    "penalties": "Tanda de penales",
-                    "penalty_winner": "Ganador"}
-    
-    año_inicial = input("Ingrese el año inicial: \n")
-    mes_inicial = input("Ingrese el mes inicial: \n")
-    dia_inicial = input("Ingrese el dia inicial: \n")
-    
-    año_final = input("Ingrese el año final: \n")
-    mes_final = input("Ingrese el mes final: \n")
-    dia_final = input("Ingrese el dia final: \n")
-    
-    torneo = input("Ingrese el nombre del torneo: \n")
-    
-    partidos_por_torneo, numero_paises, numero_ciudades = controller.req_4(control, torneo, fecha_inicial, fecha_final)
-    
-    print("\n=============== Datos del usuario ==================")
-    print(f"Fecha inicial: {año_inicial}-{mes_inicial}-{dia_inicial}")
-    print(f"Fecha final: {año_final}-{mes_final}-{dia_final}")
-    print("Nombre del torneo: ", torneo)
-    
-    print("\n=============== Respuesta del programa ==================")
-    print("Numero de partidos encontrados: ", lt.size(partidos_por_torneo))
-    print("Numero de paises encontrados: ", numero_paises)
-    print("Numero de ciudades encontradas: ", numero_ciudades)
-    
-    print_table(partidos_por_torneo, headers)
+
       
     
     

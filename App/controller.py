@@ -150,9 +150,7 @@ def req_3(control, equipo, año_inicial, mes_inicial, dia_inicial, año_final, m
     return model.req_3(control["model"], equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
 
 
-def req_4(control, torneo, fecha_inicial, fecha_final):
-    
-    return model.req_4(control["model"], torneo, fecha_inicial, fecha_final)
+
     
 
 

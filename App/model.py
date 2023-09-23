@@ -265,7 +265,7 @@ def sort(data_structs, sort_algorithm, datos):
     else:
         print("Opcion no valida")
 
-    def req_4(data_structs, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
+def req_4(data_structs, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
         
     
         def search_shootout(result):

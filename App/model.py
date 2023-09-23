@@ -264,6 +264,41 @@ def sort(data_structs, sort_algorithm, datos):
         sorting_algorithm(data_structs["shootouts"], sort_criteria_shootouts, sort_algorithm)
     else:
         print("Opcion no valida")
-        
-        
 
+    def req_4(data_structs, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
+        
+    
+        def search_shootout(result):
+            for shootout in lt.iterator(data_structs["shootouts"]):
+                if shootout["date"] == result["date"] and shootout["home_team"] == result["home_team"] and shootout["away_team"] == result["away_team"]:
+                    result["shootout"] = True
+                    result["shootout_winner"] = shootout["winner"]
+                    return result
+            result["shootout"] = False
+            result["shootout_winner"] = None
+            return result
+    
+    
+        partidos_por_torneo = lt.newList("ARRAY_LIST")
+        paises = {}
+        ciudades = {}
+    
+    
+    
+        for result in lt.iterator(data_structs["results"]):
+            fecha = result["date"].split("-")
+            if revisar_intervalo(fecha[2], fecha[1], fecha[0], dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final) and result["tournament"] == torneo:
+                result1 = search_shootout(result)
+                lt.addLast(partidos_por_torneo, result1)
+                if result["city"] in ciudades:
+                    ciudades[result["city"]] += 1
+                else:
+                    ciudades[result["city"]] = 1
+                if result["country"] in paises:
+                    paises[result["country"]] += 1
+                else:
+                    paises[result["country"]] = 1
+    
+        return partidos_por_torneo, paises, ciudades    
+        
+    

@@ -316,4 +316,6 @@ def sort(data_structs, sort_algorithm, datos):
         sorting_algorithm(data_structs["shootouts"], sort_criteria_shootouts, sort_algorithm)
     else:
         print("Opcion no valida")
+        
+        
 

@@ -296,6 +296,48 @@ def print_req_4(control):
     print_table(partidos_por_torneo, headers)
       
     
+def print_req_6(control):
+    headers = {"team": "Equipo",
+               "puntos": "Puntos",
+               "diferencia_goles": "Diferencia de goles",
+                "partidos_jugados": "Partidos jugados",
+                "puntos_linea_penal": "Puntos linea penal",
+                "puntos_autogol": "Puntos autogol",
+                "victorias": "Victorias",
+                "empates": "Empates", 
+                "derrotas": "Derrotas",
+                "goles_jugadores_propios": "Goles jugadores propios",
+                "goles_jugadores_rivales": "Goles jugadores rivales"}
+    
+    año_inicial = input("Ingrese el año inicial: \n")
+    mes_inicial = input("Ingrese el mes inicial: \n")
+    dia_inicial = input("Ingrese el dia inicial: \n")
+    
+    año_final = input("Ingrese el año final: \n")
+    mes_final = input("Ingrese el mes final: \n")
+    dia_final = input("Ingrese el dia final: \n")
+    
+    n_equipos = int(input("Ingrese el numero de equipos: \n"))
+    torneo = input("Ingrese el nombre del torneo: \n")
+    
+    equipos_a_mostrar, equipos_encontrados = controller.req_6(control, n_equipos, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    
+    print("\n=============== Datos del usuario ==================")
+    print(f"Fecha inicial: {año_inicial}-{mes_inicial}-{dia_inicial}")
+    print(f"Fecha final: {año_final}-{mes_final}-{dia_final}")
+    print("Numero de equipos: ", n_equipos)
+    
+    print("\n=============== Respuesta del programa ==================")
+    print("Numero de equipos encontrados: ", equipos_encontrados)
+    print(f"Seleccionando {lt.size(equipos_a_mostrar)} equipos")
+    
+    print_table(equipos_a_mostrar, headers)
+    
+    
+    
+                
+               
+
     
 def print_tipo_dato_abstracto(control):
     

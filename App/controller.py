@@ -154,7 +154,9 @@ def req_4(control, torneo, año_inicial, mes_inicial, dia_inicial, año_final, m
     return model.req_4(control["model"], torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
 
     
-
+def req_6(control, n_equipos, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
+    
+    return model.req_6(control["model"], n_equipos, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
 
 
 # Funciones para medir tiempos de ejecucion

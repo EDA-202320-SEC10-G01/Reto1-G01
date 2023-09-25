@@ -47,11 +47,11 @@ def new_controller():
 def print_menu():
     print("Bienvenido")
     print("1- Cargar información")
-    print("2- Consultar ultimos partidos jugados por un equipo")
-    print("3- Consultar goles de un jugador")
-    print("4- Consultar partidos de un equipo en un rango de fechas")
-    print("5- Ejecutar Requerimiento 4")
-    print("6- Ejecutar Requerimiento 5")
+    print("2- Consultar ultimos N partidos jugados por un equipo")
+    print("3- Consultar los primeros N goles de un jugador")
+    print("4- Consultar partidos de un equipo en un periodo especifico")
+    print("5- Consultar partidos relacionados con un torneo en un periodo especifico")
+    print("6- Consultar anotaciones de un jugador en un periodo especifico")
     print("7- Ejecutar Requerimiento 6")
     print("8- Ejecutar Requerimiento 7")
     print("9- Ejecutar Requerimiento 8")
@@ -102,7 +102,7 @@ def sort(control):
     1. Resultados \n
     2. Anotadores \n
     3. Tandas de penal \n
-    4. todos \n""")
+    4. Todos \n""")
     
     
     controller.sort(control, sort_algo, datos)  
@@ -269,7 +269,7 @@ def print_req_4(control):
                     "home_team": "Equipo local",
                     "away_team": "Equipo visitante",
                     "shootout": "Tanda de penales",
-                    "shootout_winner": "Ganador"}
+                    "shootout_winner": "Ganador penales"}
     
     año_inicial = input("Ingrese el año inicial: \n")
     mes_inicial = input("Ingrese el mes inicial: \n")

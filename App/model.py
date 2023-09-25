@@ -94,49 +94,51 @@ def req_1(data_structs, equipo, condicion, n_partidos):
         return (partido["home_team"] == equipo and partido["neutral"] == "False")
     
     
-    partidos_por_equipo = st.newStack()
+    partidos_por_equipo = lt.newList("ARRAY_LIST")
     
     for i in lt.iterator(data_structs["results"]):
         if i["home_team"] == equipo or i["away_team"] == equipo:
             if condicion == 3:
-                st.push(partidos_por_equipo, i)
+                lt.addLast(partidos_por_equipo, i)
             elif condicion == 1:
                 if es_equipo_local(i):
-                    st.push(partidos_por_equipo, i)
+                    lt.addLast(partidos_por_equipo, i)
             elif condicion == 2:
                 if not es_equipo_local(i):
-                    st.push(partidos_por_equipo, i)
+                    lt.addLast(partidos_por_equipo, i)
             else:
                 print("Condicion no valida")
             
-    partidos_encontrados = st.size(partidos_por_equipo)
+    partidos_encontrados = lt.size(partidos_por_equipo)
     partidos_a_mostrar = lt.newList("ARRAY_LIST")
     
     if n_partidos <= partidos_encontrados:
-        for i in range(1, n_partidos + 1):
-            lt.addLast(partidos_a_mostrar, st.pop(partidos_por_equipo))
-            
+        partidos_a_mostrar = lt.subList(partidos_por_equipo, 1, n_partidos)
+        
     else:
-        for i in range(1, partidos_encontrados + 1):
-            lt.addLast(partidos_a_mostrar, st.pop(partidos_por_equipo))
-            
+        partidos_a_mostrar = lt.subList(partidos_por_equipo, 1, partidos_encontrados)
+        
     return partidos_a_mostrar, partidos_encontrados
                    
 def req_2(data_structs, n_goles, jugador):
     
-    goles_marcados = lt.newList("ARRAY_LIST")
+    goles_marcados = st.newStack()
 
     for i in lt.iterator(data_structs["goalscorers"]):
         if i["scorer"] == jugador:
-            lt.addLast(goles_marcados, i)
-            
-    goles_encontrados = lt.size(goles_marcados)
+            st.push(goles_marcados, i)
+                   
+    goles_encontrados = st.size(goles_marcados)
+    goles_a_mostrar = lt.newList("ARRAY_LIST")
     
     if n_goles <= goles_encontrados:
-        goles_a_mostrar = lt.subList(goles_marcados, 1, n_goles)
+        for i in range(1, n_goles + 1):
+            lt.addLast(goles_a_mostrar, st.pop(goles_marcados))
         
     else:
-        goles_a_mostrar = lt.subList(goles_marcados, 1, goles_encontrados)
+        for i in range(1, goles_encontrados + 1):
+            lt.addLast(goles_a_mostrar, st.pop(goles_marcados))
+            
         
     return goles_a_mostrar, goles_encontrados
         
@@ -172,7 +174,7 @@ def req_4(data_structs, torneo, año_inicial, mes_inicial, dia_inicial, año_fin
                     result["shootout"] = True
                     result["shootout_winner"] = shootouts[llave]["winner"]
                     lt.addLast(partidos, result)
-                elif result["home_score"] == result["away_score"]:
+                elif result["home_score"] > result["away_score"] or result["home_score"] < result["away_score"]:
                     result["shootout"] = False
                     result["shootout_winner"] = "None"
                     lt.addLast(partidos, result)
@@ -436,7 +438,7 @@ def sort_criteria_results(data_1, data_2):
     fecha_1 = data_1["date"].split("-")
     fecha_2 = data_2["date"].split("-")
     
-    if comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "menor":
+    if comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "mayor":
         return True
     elif comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "igual":
         if data_1["home_team"] < data_2["home_team"]:
@@ -449,7 +451,7 @@ def sort_criteria_goalscorers(data_1, data_2):
     fecha_1 = data_1["date"].split("-")
     fecha_2 = data_2["date"].split("-")
     
-    if comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "menor":
+    if comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "mayor":
         return True
     elif comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "igual":
         if data_1["home_team"] < data_2["home_team"]:
@@ -463,7 +465,7 @@ def sort_criteria_shootouts(data_1, data_2):
     fecha_1 = data_1["date"].split("-")
     fecha_2 = data_2["date"].split("-")
     
-    if comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "menor":
+    if comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "mayor":
         return True
     elif comparar_fechas(fecha_1[2], fecha_1[1], fecha_1[0], fecha_2[2], fecha_2[1], fecha_2[0]) == "igual":
         if data_1["home_team"] < data_2["home_team"]:

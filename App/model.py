@@ -172,29 +172,68 @@ def req_4(data_structs, torneo, año_inicial, mes_inicial, dia_inicial, año_fin
                     result["shootout"] = True
                     result["shootout_winner"] = shootouts[llave]["winner"]
                     lt.addLast(partidos, result)
-                else:
+                elif result["home_score"] == result["away_score"]:
                     result["shootout"] = False
                     result["shootout_winner"] = "None"
+                    lt.addLast(partidos, result)
+                else:
+                    result["shootout"] = "DESCONOCIDO "
+                    result["shootout_winner"] = "DESCONOCIDO"
                     lt.addLast(partidos, result)
                     
         return partidos, {}, {}
                     
 
     
-def req_5 (anotador, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
-
-        anotadores = lt.newList("ARRY_LIST")
-
-        def search_player(result):
-            for player in lt.iterator(data_structs["goalscorers"]):
-                fecha = result["Date"].split("-")
-                if revisar_intervalo(fecha[2], fecha[1], fecha[0], dia_final,mes_inicial, año_inicial, dia_final, mes_final, año_final) and  player["scorer"] == anotador:
-                    lt.addLast(anotadores,player)
-
-
-
-
-        return anotadores
+def req_5 (data_structs, anotador, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
+    
+    
+    results = {}
+    
+    for result in lt.iterator(data_structs["results"]):
+        llave = f"{result['date']}-{result['home_team']}-{result['away_team']}"
+        results[llave] = result
+         
+    goles = lt.newList("ARRAY_LIST")
+    torneos = {}
+    autogoles = 0
+    penales = 0
+    
+    for goalscorer in lt.iterator(data_structs["goalscorers"]):
+        date = goalscorer["date"].split("-")
+        if goalscorer["scorer"] == anotador and revisar_intervalo(date[2], date[1], date[0], dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final):
+            llave = f"{goalscorer['date']}-{goalscorer['home_team']}-{goalscorer['away_team']}"
+            if llave in results:
+                goalscorer["tournament"] = results[llave]["tournament"]
+                goalscorer["home_score"] = results[llave]["home_score"]
+                goalscorer["away_score"] = results[llave]["away_score"]
+                lt.addLast(goles, goalscorer)
+            else:
+                goalscorer["tournament"] = "DESCONOCIDO"
+                goalscorer["home_score"] = "DESCONOCIDO"
+                goalscorer["away_score"] = "DESCONOCIDO"
+                lt.addLast(goles, goalscorer)
+                
+                
+            if goalscorer["tournament"] not in torneos:
+                torneos[goalscorer["tournament"]] = 1
+            else:
+                torneos[goalscorer["tournament"]] += 1
+            
+            if goalscorer["own_goal"] == "True":
+                autogoles += 1
+            
+            if goalscorer["penalty"] == "True":
+                penales += 1
+                
+                
+    return goles, len(torneos), autogoles, penales
+    
+        
+        
+        
+    
+    
 
 
 def req_6(data_structs, n_equipos, torneo, dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final):

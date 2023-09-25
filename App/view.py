@@ -295,6 +295,48 @@ def print_req_4(control):
     
     print_table(partidos_por_torneo, headers)
       
+      
+def print_req_5(control):
+    
+    headers = {"date": "Fecha",
+               "minute": "Minuto",
+               "home_team": "Equipo local",
+               "away_team": "Equipo visitante",
+               "team": "Equipo",
+               "home_score": "Marcador local",
+               "away_score": "Marcador visitante",
+               "tournament": "Torneo",
+               "penalty": "Penal",
+               "own_goal": "Autogol"}
+    
+    año_inicial = input("Ingrese el año inicial: \n")
+    mes_inicial = input("Ingrese el mes inicial: \n")
+    dia_inicial = input("Ingrese el dia inicial: \n")
+    
+    año_final = input("Ingrese el año final: \n")
+    mes_final = input("Ingrese el mes final: \n")
+    dia_final = input("Ingrese el dia final: \n")
+    
+    anotador = input("Ingrese el nombre del anotador: \n")
+    
+    goles, n_torneos, n_autogoles, n_penales = controller.req_5(control, anotador, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    
+    
+    print("\n=============== Datos del usuario ==================")
+    print(f"Fecha inicial: {año_inicial}-{mes_inicial}-{dia_inicial}")
+    print(f"Fecha final: {año_final}-{mes_final}-{dia_final}")
+    print("Nombre del anotador: ", anotador)
+    
+    print("\n=============== Respuesta del programa ==================")
+    print("Numero de goles encontrados: ", lt.size(goles))
+    print("Numero de torneos encontrados: ", n_torneos)
+    print("Numero de autogoles encontrados: ", n_autogoles)
+    print("Numero de penales encontrados: ", n_penales)
+    
+    print_table(goles, headers)
+          
+      
+      
     
 def print_req_6(control):
     headers = {"team": "Equipo",

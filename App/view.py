@@ -383,7 +383,7 @@ def print_req_6(control):
     
 def print_tipo_dato_abstracto(control):
     
-    tipo = input("""Ingrese el tipo de dato que desea para representar la listas de datos: \n
+    tipo = input("""Ingrese el tipo de dato que desea para representar la listas de datos:  \n
     1. Array List \n
     2. Linked List \n""")
     

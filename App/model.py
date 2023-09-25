@@ -90,9 +90,6 @@ def req_1(data_structs, equipo, condicion, n_partidos):
     """
     Función que soluciona el requerimiento 1
     """
-    def es_equipo_local(partido):
-        return (partido["home_team"] == equipo and partido["neutral"] == "False")
-    
     
     partidos_por_equipo = lt.newList("ARRAY_LIST")
     
@@ -101,10 +98,10 @@ def req_1(data_structs, equipo, condicion, n_partidos):
             if condicion == 3:
                 lt.addLast(partidos_por_equipo, i)
             elif condicion == 1:
-                if es_equipo_local(i):
+                if i["home_team"] == equipo and i["neutral"] == "False":
                     lt.addLast(partidos_por_equipo, i)
             elif condicion == 2:
-                if not es_equipo_local(i):
+                if i["away_team"] == equipo:
                     lt.addLast(partidos_por_equipo, i)
             else:
                 print("Condicion no valida")

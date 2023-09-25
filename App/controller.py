@@ -134,28 +134,49 @@ def tipo_dato_abstracto(control, tipo):
 
 def req_1(control, n_partidos, equipo, condicion):
     
-    return model.req_1(control["model"], n_partidos, equipo, condicion)
-
+    start_time = get_time()
+    partidos_por_equipo, partidos_encontrados = model.req_1(control["model"], n_partidos, equipo, condicion)
+    end_time = get_time()
+    delta_time = end_time - start_time
+    return partidos_por_equipo, partidos_encontrados, delta_time
 
 def req_2(control, n_goles, jugador):
-    """
-    Retorna el resultado del requerimiento 2
-    """
-    return model.req_2(control["model"], n_goles, jugador)
+    
+    start_time = get_time()
+    goles_a_mostrar, goles_encontrados = model.req_2(control["model"], n_goles, jugador)
+    end_time = get_time()
+    delta_time = end_time - start_time
+    
+    return goles_a_mostrar, goles_encontrados, delta_time
 
 def req_3(control, equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
-    """
-    Retorna el resultado del requerimiento 3
-    """
-    return model.req_3(control["model"], equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    
+    start_time = get_time()
+    partidos_por_equipo = model.req_3(control["model"], equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    end_time = get_time()
+    delta_time = end_time - start_time
+    
+    return partidos_por_equipo, delta_time
 
 def req_4(control, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
     
-    return model.req_4(control["model"], torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
-
+    start_time = get_time()
+    partidos_por_torneo, paises, ciudades = model.req_4(control["model"], torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    end_time = get_time()
+    delta_time = end_time - start_time
+    
+    return partidos_por_torneo, paises, ciudades, delta_time
 def req_5(control, anotador, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
     
-    return model.req_5(control["model"], anotador, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    start_time = get_time()
+    goles, n_torneos, n_autogoles, n_penales = model.req_5(control["model"], anotador, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    end_time = get_time()
+    delta_time = end_time - start_time
+    
+    return goles, n_torneos, n_autogoles, n_penales, delta_time
+    
+    
+    return goles_por_anotador, goles_encontrados, delta_time
     
 def req_6(control, n_equipos, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
     

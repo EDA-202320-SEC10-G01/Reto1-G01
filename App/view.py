@@ -189,7 +189,7 @@ def print_req_1(control):
     3. Indiferente \n"""))
     
     
-    partidos_por_equipo, partidos_encontrados = controller.req_1(control, equipo, condicion, n_partidos)
+    partidos_por_equipo, partidos_encontrados, delta_time = controller.req_1(control, equipo, condicion, n_partidos)
 
     print("\n=============== Datos del usuario ==================")
     print("Nombre del equipo: ", equipo)
@@ -199,6 +199,7 @@ def print_req_1(control):
     print("\n=============== Respuesta del programa ==================")
     print("Numero de partidos encontrados: ", partidos_encontrados)
     print(f"Seleccionando {lt.size(partidos_por_equipo)} partidos")
+    print(f"Tiempo de ejecución del algoritmo sobre los datos indicados: {delta_time} ms")
     
     print_table(partidos_por_equipo, headers)
 
@@ -216,7 +217,7 @@ def print_req_2(control):
     n_goles = int(input("Ingrese el número de goles: \n"))
     jugador = input("Ingrese el nombre del jugador: \n")
     
-    goles_a_mostrar, goles_encontrados = controller.req_2(control, n_goles, jugador)
+    goles_a_mostrar, goles_encontrados, delta_time = controller.req_2(control, n_goles, jugador)
     
     print("\n=============== Datos del usuario ==================")
     print("Numero de goles: ", n_goles)
@@ -225,6 +226,7 @@ def print_req_2(control):
     print("\n=============== Respuesta del programa ==================")
     print("Numero de goles encontrados: ", goles_encontrados)
     print(f"Seleccionando {lt.size(goles_a_mostrar)} goles")
+    print(f"Tiempo de ejecución del algoritmo de sobre los datos indicados: {delta_time} ms")
 
     print_table(goles_a_mostrar, headers)
     
@@ -251,7 +253,7 @@ def print_req_3(control):
     equipo = input("Ingrese el nombre del equipo: \n")
     
     
-    partidos_por_equipo = controller.req_3(control, equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    partidos_por_equipo, delta_time = controller.req_3(control, equipo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
     
     print("\n=============== Datos del usuario ==================")
     print(f"Fecha inicial: {año_inicial}-{mes_inicial}-{dia_inicial}")
@@ -260,6 +262,7 @@ def print_req_3(control):
     
     print("\n=============== Respuesta del programa ==================")
     print(f"Seleccionando {lt.size(partidos_por_equipo)} partidos")
+    print(f"Tiempo de ejecución del algoritmo sobre los datos indicados: {delta_time} ms")
     
     print_table(partidos_por_equipo, headers)
     
@@ -281,7 +284,7 @@ def print_req_4(control):
     
     torneo = input("Ingrese el nombre del torneo: \n")
     
-    partidos_por_torneo, paises, ciudades = controller.req_4(control, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    partidos_por_torneo, paises, ciudades, delta_time = controller.req_4(control, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
     
     print("\n=============== Datos del usuario ==================")
     print(f"Fecha inicial: {año_inicial}-{mes_inicial}-{dia_inicial}")
@@ -290,8 +293,9 @@ def print_req_4(control):
     
     print("\n=============== Respuesta del programa ==================")
     print("Numero de partidos encontrados: ", lt.size(partidos_por_torneo))
-    print("Numero de paises encontrados: ", len(list(paises.keys())))
-    print("Numero de ciudades encontradas: ", len(list(ciudades.keys())))
+    print("Numero de paises encontrados: ", len(paises))
+    print("Numero de ciudades encontradas: ", len(paises))
+    print("Tiempo de ejecución del algoritmo sobre los datos indicados: ", delta_time)
     
     print_table(partidos_por_torneo, headers)
       
@@ -319,7 +323,7 @@ def print_req_5(control):
     
     anotador = input("Ingrese el nombre del anotador: \n")
     
-    goles, n_torneos, n_autogoles, n_penales = controller.req_5(control, anotador, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    goles, n_torneos, n_autogoles, n_penales, delta_time = controller.req_5(control, anotador, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
     
     
     print("\n=============== Datos del usuario ==================")
@@ -332,6 +336,7 @@ def print_req_5(control):
     print("Numero de torneos encontrados: ", n_torneos)
     print("Numero de autogoles encontrados: ", n_autogoles)
     print("Numero de penales encontrados: ", n_penales)
+    print("Tiempo de ejecucion del algoritmo sobre los datos indicados: ", delta_time)
     
     print_table(goles, headers)
           

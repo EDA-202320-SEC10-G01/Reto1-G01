@@ -344,6 +344,7 @@ def print_req_5(control):
       
     
 def print_req_6(control):
+    
     headers = {"team": "Equipo",
                "puntos": "Puntos",
                "diferencia_goles": "Diferencia de goles",
@@ -367,7 +368,7 @@ def print_req_6(control):
     n_equipos = int(input("Ingrese el numero de equipos: \n"))
     torneo = input("Ingrese el nombre del torneo: \n")
     
-    equipos_a_mostrar, equipos_encontrados = controller.req_6(control, n_equipos, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    equipos_a_mostrar, equipos_encontrados = controller.req_6(control, n_equipos, torneo, dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final)
     
     print("\n=============== Datos del usuario ==================")
     print(f"Fecha inicial: {año_inicial}-{mes_inicial}-{dia_inicial}")
@@ -375,10 +376,11 @@ def print_req_6(control):
     print("Numero de equipos: ", n_equipos)
     
     print("\n=============== Respuesta del programa ==================")
-    print("Numero de equipos encontrados: ", equipos_encontrados)
+    print("Numero de equipos encontrados: ")
     print(f"Seleccionando {lt.size(equipos_a_mostrar)} equipos")
     
     print_table(equipos_a_mostrar, headers)
+
     
     
     
@@ -440,10 +442,10 @@ if __name__ == "__main__":
             print_req_6(control)
 
         elif int(inputs) == 8:
-            print_req_7(control)
+            print(control["model"]["goalscorers_access"])
 
         elif int(inputs) == 9:
-            print_req_8(control)
+            print(control["model"]["shootouts_access"])
             
         elif int(inputs) == 10:
             print_tipo_dato_abstracto(control)

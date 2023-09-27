@@ -86,12 +86,15 @@ def load_data(control, archivo, tamaño):
         if archivo == "1":
             control["model"]["results"] = model.lt.newList("ARRAY_LIST")
             load_results(control["model"], tamaños[tamaño])
+            model.create_access_results(control["model"])
         elif archivo == "2":
             control["model"]["goalscorers"] = model.lt.newList("ARRAY_LIST")
             load_goalscorers(control["model"], tamaños[tamaño])
+            model.create_access_goalscorers(control["model"])
         elif archivo == "3":
             control["model"]["shootouts"] = model.lt.newList("ARRAY_LIST")
             load_shootouts(control["model"], tamaños[tamaño])
+            model.create_access_shootouts(control["model"])
         elif archivo == "4":
             control["model"]["results"] = model.lt.newList("ARRAY_LIST")
             control["model"]["goalscorers"] = model.lt.newList("ARRAY_LIST")
@@ -99,6 +102,11 @@ def load_data(control, archivo, tamaño):
             load_results(control["model"], tamaños[tamaño])
             load_goalscorers(control["model"], tamaños[tamaño])
             load_shootouts(control["model"], tamaños[tamaño])
+            model.create_access_results(control["model"])
+            model.create_access_goalscorers(control["model"])
+            model.create_access_shootouts(control["model"])
+            
+            
     
     
 
@@ -176,11 +184,9 @@ def req_5(control, anotador, año_inicial, mes_inicial, dia_inicial, año_final,
     return goles, n_torneos, n_autogoles, n_penales, delta_time
     
     
-    return goles_por_anotador, goles_encontrados, delta_time
+def req_6(control, n_equipos, torneo, dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final):
     
-def req_6(control, n_equipos, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
-    
-    return model.req_6(control["model"], n_equipos, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final)
+    return model.req_6(control["model"], n_equipos, torneo, dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final)
 
 
 # Funciones para medir tiempos de ejecucion

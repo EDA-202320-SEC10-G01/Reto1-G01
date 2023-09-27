@@ -22,7 +22,8 @@
 
 import config as cf
 import sys
-import controller 
+import controller
+from DISClib.ADT import list as lt
 from DISClib.ADT import stack as st
 from DISClib.ADT import queue as qu
 assert cf
@@ -51,9 +52,8 @@ def print_menu():
     print("4- Consultar partidos de un equipo en un periodo especifico")
     print("5- Consultar partidos relacionados con un torneo en un periodo especifico")
     print("6- Consultar anotaciones de un jugador en un periodo especifico")
-    print("7- Ejecutar Requerimiento 6")
-    print("8- Ejecutar Requerimiento 7")
-    print("9- Ejecutar Requerimiento 8")
+    print("7- Clasificar los N mejores equipos en un torneo dentro de un periodo especifico")
+    print("8- Clasificar los N mejores anotadores en partidos oficiales dentro de un periodo especifico")
     print("10 -Escoger representacion de la lista en el modelo")
     print("11- Ordenar datos")
     print("0- Salir")
@@ -293,7 +293,7 @@ def print_req_4(control):
     print("\n=============== Respuesta del programa ==================")
     print("Numero de partidos encontrados: ", lt.size(partidos_por_torneo))
     print("Numero de paises encontrados: ", len(paises))
-    print("Numero de ciudades encontradas: ", len(paises))
+    print("Numero de ciudades encontradas: ", len(ciudades))
     print("Tiempo de ejecución del algoritmo sobre los datos indicados: ", delta_time)
     
     print_table(partidos_por_torneo, headers)
@@ -441,10 +441,10 @@ if __name__ == "__main__":
             print_req_6(control)
 
         elif int(inputs) == 8:
-            print(control["model"]["goalscorers_access"])
+            print_req_7(control)
 
         elif int(inputs) == 9:
-            print(control["model"]["shootouts_access"])
+            print_req_8(control)
             
         elif int(inputs) == 10:
             print_tipo_dato_abstracto(control)

@@ -336,7 +336,7 @@ def print_req_5(control):
     print("Numero de torneos encontrados: ", n_torneos)
     print("Numero de autogoles encontrados: ", n_autogoles)
     print("Numero de penales encontrados: ", n_penales)
-    print("Tiempo de ejecucion del algoritmo sobre los datos indicados: ", delta_time)
+    print("Tiempo de ejecucion del algoritmo  sobre los datos indicados: ", delta_time)
     
     print_table(goles, headers)
           

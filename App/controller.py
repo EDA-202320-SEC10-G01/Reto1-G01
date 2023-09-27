@@ -193,7 +193,7 @@ def req_6(control, n_equipos, torneo, dia_inicial, mes_inicial, año_inicial, di
 
 def get_time():
     """
-    devuelve el instante tiempo de procesamiento en milisegundos
+    devuelve el  instante tiempo de procesamiento en milisegundos
     """
     return float(time.perf_counter()*1000)
 

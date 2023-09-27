@@ -287,7 +287,7 @@ def req_6(data_structs, n_equipos, torneo, dia_inicial, mes_inicial, año_inicia
     def calcular_goles_penal(resultado, equipo, data_structs):
         
         llave = f"{resultado['date']}-{resultado['home_team']}-{resultado['away_team']}"
-        goles = 0
+        goles = 1
         
         if llave in data_structs["goalscorers_access"]:
             for i in lt.iterator(data_structs["goalscorers_access"][llave]):
@@ -303,6 +303,7 @@ def req_6(data_structs, n_equipos, torneo, dia_inicial, mes_inicial, año_inicia
         
         if llave in data_structs["goalscorers_access"]:
             for i in lt.iterator(data_structs["goalscorers_access"][llave]):
+
                 if i["team"] == equipo and i["own_goal"] == "True":
                     autogoles += 1
                

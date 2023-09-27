@@ -188,7 +188,6 @@ def req_6(control, n_equipos, torneo, dia_inicial, mes_inicial, año_inicial, di
     
     return model.req_6(control["model"], n_equipos, torneo, dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final)
 
-
 # Funciones para medir tiempos de ejecucion
 
 def get_time():

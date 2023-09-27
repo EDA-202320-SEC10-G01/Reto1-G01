@@ -48,13 +48,13 @@ def new_data_structs():
     Inicializa las estructuras de datos del modelo. Las crea de
     manera vacía para posteriormente almacenar la información.
     """
-    football_data = {"results": None,
-                     "goalscorers": None,
-                     "shootouts": None,}
-    
-    football_data["results"] = lt.newList("ARRAY_LIST")
-    football_data["goalscorers"] = lt.newList("ARRAY_LIST")
-    football_data["shootouts"] = lt.newList("ARRAY_LIST")
+    football_data = {"results": lt.newList("ARRAY_LIST"),
+                     "goalscorers": lt.newList("ARRAY_LIST"),
+                     "shootouts": lt.newList("ARRAY_LIST"),
+                     "shootouts_access": {},
+                     "results_access": {},
+                     "goalscorers_access": {}}
+
     
     return football_data
 
@@ -72,6 +72,41 @@ def add_goalscorer(data_structs, data):
 def add_shootout(data_structs, data):
     
     lt.addLast(data_structs["shootouts"], data)
+    
+def create_access_results(data_structs):
+    
+    results_access = {}
+    
+    for result in lt.iterator(data_structs["results"]):
+        llave = f"{result['date']}-{result['home_team']}-{result['away_team']}"
+        results_access[llave] = result
+        
+    data_structs["results_access"] = results_access
+    
+def create_access_shootouts(data_structs):
+    
+    shootouts_access = {}
+    
+    for shootout in lt.iterator(data_structs["shootouts"]):
+        llave = f"{shootout['date']}-{shootout['home_team']}-{shootout['away_team']}"
+        shootouts_access[llave] = shootout
+        
+    data_structs["shootouts_access"] = shootouts_access
+    
+def create_access_goalscorers(data_structs):
+        
+    goalscorers_access = {}
+        
+    for goalscorer in lt.iterator(data_structs["goalscorers"]):
+        llave = f"{goalscorer['date']}-{goalscorer['home_team']}-{goalscorer['away_team']}-{goalscorer['scorer']}"
+        if llave in goalscorers_access:
+            lt.addLast(goalscorers_access[llave], goalscorer)
+        else:
+            goalscorers_access[llave] = lt.newList("ARRAY_LIST")
+            lt.addLast(goalscorers_access[llave], goalscorer)
+            
+    data_structs["goalscorers_access"] = goalscorers_access
+    
 
 def data_size(data_structs):
     """
@@ -90,30 +125,29 @@ def req_1(data_structs, equipo, condicion, n_partidos):
     """
     Función que soluciona el requerimiento 1
     """
-    
-    partidos_por_equipo = lt.newList("ARRAY_LIST")
+ 
+    partidos_por_equipo = qu.newQueue("ARRAY_LIST")
     
     for i in lt.iterator(data_structs["results"]):
         if i["home_team"] == equipo or i["away_team"] == equipo:
             if condicion == 3:
-                lt.addLast(partidos_por_equipo, i)
+                qu.enqueue(partidos_por_equipo, i)
             elif condicion == 1:
                 if i["home_team"] == equipo and i["neutral"] == "False":
-                    lt.addLast(partidos_por_equipo, i)
+                    qu.enqueue(partidos_por_equipo, i)
             elif condicion == 2:
                 if i["away_team"] == equipo:
-                    lt.addLast(partidos_por_equipo, i)
+                    qu.enqueue(partidos_por_equipo, i)
             else:
                 print("Condicion no valida")
             
-    partidos_encontrados = lt.size(partidos_por_equipo)
+    partidos_encontrados = qu.size(partidos_por_equipo)
     partidos_a_mostrar = lt.newList("ARRAY_LIST")
     
-    if n_partidos <= partidos_encontrados:
-        partidos_a_mostrar = lt.subList(partidos_por_equipo, 1, n_partidos)
-        
-    else:
-        partidos_a_mostrar = lt.subList(partidos_por_equipo, 1, partidos_encontrados)
+    while partidos_encontrados > 0 and lt.size(partidos_a_mostrar) < n_partidos:
+        lt.addLast(partidos_a_mostrar, qu.dequeue(partidos_por_equipo))
+
+
         
     return partidos_a_mostrar, partidos_encontrados
                    
@@ -154,12 +188,6 @@ def req_3(data_structs, equipo, año_inicial, mes_inicial, dia_inicial, año_fin
 
 def req_4(data_structs, torneo, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
         
-    
-        shootouts = {}
-        
-        for shootout in lt.iterator(data_structs["shootouts"]):
-            llave = f"{shootout['date']}-{shootout['home_team']}-{shootout['away_team']}"
-            shootouts[llave] = shootout
             
         partidos = lt.newList("ARRAY_LIST")
         
@@ -167,9 +195,9 @@ def req_4(data_structs, torneo, año_inicial, mes_inicial, dia_inicial, año_fin
             fecha = result["date"].split("-")
             llave = f"{result['date']}-{result['home_team']}-{result['away_team']}"
             if revisar_intervalo(fecha[2], fecha[1], fecha[0], dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final) and result["tournament"] == torneo:
-                if llave in shootouts:
+                if llave in data_structs["shootouts_access"]:
                     result["shootout"] = True
-                    result["shootout_winner"] = shootouts[llave]["winner"]
+                    result["shootout_winner"] = data_structs["shootouts_access"][llave]["winner"]
                     lt.addLast(partidos, result)
                 elif result["home_score"] > result["away_score"] or result["home_score"] < result["away_score"]:
                     result["shootout"] = False
@@ -185,13 +213,6 @@ def req_4(data_structs, torneo, año_inicial, mes_inicial, dia_inicial, año_fin
 
     
 def req_5 (data_structs, anotador, año_inicial, mes_inicial, dia_inicial, año_final, mes_final, dia_final):
-    
-    
-    results = {}
-    
-    for result in lt.iterator(data_structs["results"]):
-        llave = f"{result['date']}-{result['home_team']}-{result['away_team']}"
-        results[llave] = result
          
     goles = lt.newList("ARRAY_LIST")
     torneos = {}
@@ -202,10 +223,10 @@ def req_5 (data_structs, anotador, año_inicial, mes_inicial, dia_inicial, año_
         date = goalscorer["date"].split("-")
         if goalscorer["scorer"] == anotador and revisar_intervalo(date[2], date[1], date[0], dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final):
             llave = f"{goalscorer['date']}-{goalscorer['home_team']}-{goalscorer['away_team']}"
-            if llave in results:
-                goalscorer["tournament"] = results[llave]["tournament"]
-                goalscorer["home_score"] = results[llave]["home_score"]
-                goalscorer["away_score"] = results[llave]["away_score"]
+            if llave in data_structs["results_access"]:
+                goalscorer["tournament"] = data_structs["results_access"][llave]["tournament"]
+                goalscorer["home_score"] = data_structs["results_access"][llave]["home_score"]
+                goalscorer["away_score"] = data_structs["results_access"][llave]["away_score"]
                 lt.addLast(goles, goalscorer)
             else:
                 goalscorer["tournament"] = "DESCONOCIDO"
@@ -216,8 +237,6 @@ def req_5 (data_structs, anotador, año_inicial, mes_inicial, dia_inicial, año_
                 
             if goalscorer["tournament"] not in torneos:
                 torneos[goalscorer["tournament"]] = 1
-            else:
-                torneos[goalscorer["tournament"]] += 1
             
             if goalscorer["own_goal"] == "True":
                 autogoles += 1
@@ -237,166 +256,160 @@ def req_5 (data_structs, anotador, año_inicial, mes_inicial, dia_inicial, año_
 
 def req_6(data_structs, n_equipos, torneo, dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final):
     
-    def puntos_linea_penal(result, equipo, diccionario_shootouts):
-        
-        if result["home_score"] != result["away_score"]:
-            return 0
-        else:
-            llave = f"{result['date']}-{result['home_team']}-{result['away_team']}"
-            if llave in diccionario_shootouts:
-                shootout = diccionario_shootouts[llave]
-                if equipo == shootout["winner"]:
-                    return 3
-                else:
-                    return 0
+    def obtener_puntos(resultado, equipo):
+        if resultado["home_team"] == equipo:
+            if resultado["home_score"] > resultado["away_score"]:
+                return 3, [1, 0, 0]
+            elif resultado["home_score"] == resultado["away_score"]:
+                return 1, [0, 1, 0]
             else:
-                return 0
-            
-    def autogoles(result, equipo, diccionario_goalscorers):
+                return 0, [0, 0, 1]
+        elif resultado["away_team"] == equipo:
+            if resultado["home_score"] < resultado["away_score"]:
+                return 3, [1, 0, 0]
+            elif resultado["home_score"] == resultado["away_score"]:
+                return 1, [0, 1, 0]
+            else:
+                return 0, [0, 0, 1]
+    
+    def goles_por_resultado(resultado, equipo, data_structs):
         
+        llave = f"{resultado['date']}-{resultado['home_team']}-{resultado['away_team']}"
+        goles = lt.newList("ARRAY_LIST")
+        
+        if llave in data_structs["goalscorers_access"]:
+            for i in lt.iterator(data_structs["goalscorers_access"][llave]):
+                if i["team"] == equipo:
+                    lt.addLast(goles, i)
+               
+        return goles
+    
+    def calcular_goles_penal(resultado, equipo, data_structs):
+        
+        llave = f"{resultado['date']}-{resultado['home_team']}-{resultado['away_team']}"
+        goles = 1
+        
+        if llave in data_structs["goalscorers_access"]:
+            for i in lt.iterator(data_structs["goalscorers_access"][llave]):
+                if i["team"] == equipo and i["penalty"] == "True":
+                    goles += 1
+               
+        return goles
+    
+    def calcular_autogoles(resultado, equipo, data_structs):
+        
+        llave = f"{resultado['date']}-{resultado['home_team']}-{resultado['away_team']}"
         autogoles = 0
-        llave = f"{result['date']}-{result['home_team']}-{result['away_team']}"
         
-        if llave in diccionario_goalscorers:
-            goles = diccionario_goalscorers[llave]
-            for gol in lt.iterator(goles):
-                if gol["team"] != equipo and gol["own_goal"] == "True":
+        if llave in data_structs["goalscorers_access"]:
+            for i in lt.iterator(data_structs["goalscorers_access"][llave]):
+
+                if i["team"] == equipo and i["own_goal"] == "True":
                     autogoles += 1
-        
+               
         return autogoles
     
-    
-    def puntos_obtenidos(result, equipo):
+    def crear_estadistica(resultado, data_structs):
         
-        if equipo == result["home_team"]:
-            if result["home_score"] > result["away_score"]:
-                return 3, [1,0,0]
-            elif result["home_score"] == result["away_score"]:
-                return 1, [0,1,0]
-            else:
-                return 0, [0,0,1]
-            
-        elif equipo == result["away_team"]:
-            if result["home_score"] < result["away_score"]:
-                return 3, [1,0,0]
-            elif result["home_score"] == result["away_score"]:
-                return 1, [0,1,0]   
-            else:
-                return 0, [0,0,1]
+        puntos_equipo1 = obtener_puntos(resultado, resultado["home_team"])[0]
+        goles_penal_equipo1 = calcular_goles_penal(resultado, resultado["home_team"], data_structs)
+        autogoles_equipo1 = calcular_autogoles(resultado, resultado["home_team"], data_structs)
+
         
-    
-    def crear_estadisticas(result, diccionario_shootouts, diccionario_goalscorers):
+        puntos_equipo2 = obtener_puntos(resultado, resultado["away_team"])[0]
+        goles_penal_equipo2 = calcular_goles_penal(resultado, resultado["away_team"], data_structs)
+        autogoles_equipo2 = calcular_autogoles(resultado, resultado["away_team"], data_structs)
+
         
-        estadistica_uno = {}
-        estadistica_dos = {}
         
-        estadistica_uno["team"] = result["home_team"]
-        estadistica_uno["puntos"] = puntos_obtenidos(result, result["home_team"])[0]
-        estadistica_uno["diferencia_goles"] = int(result["home_score"]) - int(result["away_score"])
-        estadistica_uno["partidos_jugados"] = 1
-        estadistica_uno["puntos_linea_penal"] = 0
-        estadistica_uno["puntos_autogol"] = 0
-        estadistica_uno["victorias"] = puntos_obtenidos(result, result["home_team"])[1][0]
-        estadistica_uno["empates"] = puntos_obtenidos(result, result["home_team"])[1][1]
-        estadistica_uno["derrotas"] = puntos_obtenidos(result, result["home_team"])[1][2]
-        estadistica_uno["goles_jugadores_propios"] = int(result["home_score"]) - autogoles(result, result["home_team"], diccionario_goalscorers)
-        estadistica_uno["goles_jugadores_rivales"] = int(result["away_score"])
-        
-        estadistica_dos["team"] = result["away_team"]
-        estadistica_dos["puntos"] = puntos_obtenidos(result, result["away_team"])[0]
-        estadistica_dos["diferencia_goles"] = int(result["away_score"]) - int(result["home_score"])
-        estadistica_dos["partidos_jugados"] = 1
-        estadistica_dos["puntos_linea_penal"] = 0
-        estadistica_dos["puntos_autogol"] = 0
-        estadistica_dos["victorias"] = puntos_obtenidos(result, result["away_team"])[1][0]
-        estadistica_dos["empates"] = puntos_obtenidos(result, result["away_team"])[1][1]
-        estadistica_dos["derrotas"] = puntos_obtenidos(result, result["away_team"])[1][2]
-        estadistica_dos["goles_jugadores_propios"] = int(result["away_score"]) - autogoles(result, result["away_team"], diccionario_goalscorers)
-        estadistica_dos["goles_jugadores_rivales"] = int(result["home_score"])
+        estadistica_uno = {"team": resultado["home_team"],
+                           "puntos": puntos_equipo1,
+                           "diferencia_goles": int(resultado["home_score"]) - int(resultado["away_score"]),
+                           "partidos_jugados": 1,
+                            "goles_penal": goles_penal_equipo1,
+                            "autogoles": autogoles_equipo1,
+                            "victorias": obtener_puntos(resultado, resultado["home_team"])[1][0],
+                            "empates": obtener_puntos(resultado, resultado["home_team"])[1][1],
+                            "derrotas": obtener_puntos(resultado, resultado["home_team"])[1][2],
+                            "goles_favor": int(resultado["home_score"]) - goles_penal_equipo2,
+                            "goles_en_contra": int(resultado["away_score"])}
+                            
+        estadistica_dos = {"team": resultado["away_team"],
+                            "puntos": puntos_equipo2,
+                            "diferencia_goles": int(resultado["away_score"]) - int(resultado["home_score"]),
+                            "partidos_jugados": 1,
+                             "goles_penal": goles_penal_equipo2,
+                             "autogoles": autogoles_equipo2,
+                             "victorias": obtener_puntos(resultado, resultado["away_team"])[1][0],
+                             "empates": obtener_puntos(resultado, resultado["away_team"])[1][1],
+                             "derrotas": obtener_puntos(resultado, resultado["away_team"])[1][2],
+                             "goles_favor": int(resultado["away_score"]) - goles_penal_equipo1,
+                             "goles_en_contra": int(resultado["home_score"])}
         
         return estadistica_uno, estadistica_dos
+             
+    equipos = lt.newList("ARRAY_LIST")
+    posicion_equipos = {}
     
-    
-    
-    
-    
-    diccionario_shootouts = {}    
-    for shootout in lt.iterator(data_structs["shootouts"]):    
-        llave = f"{shootout['date']}-{shootout['home_team']}-{shootout['away_team']}"
-        diccionario_shootouts[llave] = shootout
+    for resultado in lt.iterator(data_structs["results"]):
         
-    diccionario_goalscorers = {}
-    for goalscorer in lt.iterator(data_structs["goalscorers"]):
-        llave = f"{goalscorer['date']}-{goalscorer['home_team']}-{goalscorer['away_team']}"
-        if llave not in diccionario_goalscorers:
-            diccionario_goalscorers[llave] = lt.newList("ARRAY_LIST")
-            lt.addLast(diccionario_goalscorers[llave], goalscorer)
-        else:
-            lt.addLast(diccionario_goalscorers[llave], goalscorer)
-    
-    
-    
+        fecha = resultado["date"].split("-")
+
+        if resultado["tournament"] == torneo and revisar_intervalo(fecha[2], fecha[1], fecha[0], dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final):
+           
+            estadistica_uno, estadistica_dos = crear_estadistica(resultado, data_structs)
             
-        
-    estadisticas_torneo = lt.newList("ARRAY_LIST")
-    
-    indices_estadisticas = {}
-    
-    for result in lt.iterator(data_structs["results"]):
-        fecha = result["date"].split("-")
-        if result["tournament"] == torneo and revisar_intervalo(fecha[2], fecha[1], fecha[0], dia_inicial, mes_inicial, año_inicial, dia_final, mes_final, año_final):
-            estadistica_uno, estadistica_dos = calcular_estadisticas(result, diccionario_shootouts)
-            if estadistica_uno["team"] not in indices_estadisticas:
-                indices_estadisticas[estadistica_uno["team"]] = lt.size(estadisticas_torneo) + 1
-                lt.addLast(estadisticas_torneo, estadistica_uno)
+            if resultado["home_team"] not in posicion_equipos:
+                posicion_equipos[resultado["home_team"]] = lt.size(equipos) + 1
+                lt.addLast(equipos, estadistica_uno)
+                
             else:
-                estadistica = lt.getElement(estadisticas_torneo, indices_estadisticas[estadistica_uno["team"]])
-                estadistica["puntos"] += estadistica_uno["puntos"]
-                estadistica["diferencia_goles"] += estadistica_uno["diferencia_goles"]
-                estadistica["partidos_jugados"] += estadistica_uno["partidos_jugados"]
-                estadistica["puntos_linea_penal"] += estadistica_uno["puntos_linea_penal"]
-                estadistica["puntos_autogol"] += estadistica_uno["puntos_autogol"]
-                estadistica["victorias"] += estadistica_uno["victorias"]
-                estadistica["empates"] += estadistica_uno["empates"]
-                estadistica["derrotas"] += estadistica_uno["derrotas"]
-                estadistica["goles_jugadores_propios"] += estadistica_uno["goles_jugadores_propios"]
-                estadistica["goles_jugadores_rivales"] += estadistica_uno["goles_jugadores_rivales"]
-                lt.changeInfo(estadisticas_torneo, indices_estadisticas[estadistica_uno["team"]], estadistica)
+                posicion = posicion_equipos[resultado["home_team"]]
+                equipo = lt.getElement(equipos, posicion)
                 
-            if estadistica_dos["team"] not in indices_estadisticas:
-                indices_estadisticas[estadistica_dos["team"]] = lt.size(estadisticas_torneo) + 1
-                lt.addLast(estadisticas_torneo, estadistica_dos)
+                equipo["puntos"] += estadistica_uno["puntos"]
+                equipo["diferencia_goles"] += estadistica_uno["diferencia_goles"]
+                equipo["partidos_jugados"] += estadistica_uno["partidos_jugados"]
+                equipo["goles_penal"] += estadistica_uno["goles_penal"]
+                equipo["autogoles"] += estadistica_uno["autogoles"]
+                equipo["victorias"] += estadistica_uno["victorias"]
+                equipo["empates"] += estadistica_uno["empates"]
+                equipo["derrotas"] += estadistica_uno["derrotas"]
+                equipo["goles_favor"] += estadistica_uno["goles_favor"]
+                equipo["goles_en_contra"] += estadistica_uno["goles_en_contra"]
+
+                    
+                lt.changeInfo(equipos, posicion, equipo)
+            
+            if resultado["away_team"] not in posicion_equipos:
+                posicion_equipos[resultado["away_team"]] = lt.size(equipos) + 1
+                lt.addLast(equipos, estadistica_dos)
+            
             else:
-                estadistica = lt.getElement(estadisticas_torneo, indices_estadisticas[estadistica_dos["team"]])
-                estadistica["puntos"] += estadistica_dos["puntos"]
-                estadistica["diferencia_goles"] += estadistica_dos["diferencia_goles"]
-                estadistica["partidos_jugados"] += estadistica_dos["partidos_jugados"]
-                estadistica["puntos_linea_penal"] += estadistica_dos["puntos_linea_penal"]
-                estadistica["puntos_autogol"] += estadistica_dos["puntos_autogol"]
-                estadistica["victorias"] += estadistica_dos["victorias"]
-                estadistica["empates"] += estadistica_dos["empates"]
-                estadistica["derrotas"] += estadistica_dos["derrotas"]
-                estadistica["goles_jugadores_propios"] += estadistica_dos["goles_jugadores_propios"]
-                estadistica["goles_jugadores_rivales"] += estadistica_dos["goles_jugadores_rivales"]
-                lt.changeInfo(estadisticas_torneo, indices_estadisticas[estadistica_dos["team"]], estadistica)
+                posicion = posicion_equipos[resultado["away_team"]]
+                equipo = lt.getElement(equipos, posicion)
                 
+                equipo["puntos"] += estadistica_dos["puntos"]
+                equipo["diferencia_goles"] += estadistica_dos["diferencia_goles"]
+                equipo["partidos_jugados"] += estadistica_dos["partidos_jugados"]
+                equipo["goles_penal"] += estadistica_dos["goles_penal"]
+                equipo["autogoles"] += estadistica_dos["autogoles"]
+                equipo["victorias"] += estadistica_dos["victorias"]
+                equipo["empates"] += estadistica_dos["empates"]
+                equipo["derrotas"] += estadistica_dos["derrotas"]
+                equipo["goles_favor"] += estadistica_dos["goles_favor"]
+                equipo["goles_en_contra"] += estadistica_dos["goles_en_contra"]
                 
-    quk.sort(estadisticas_torneo, sort_criteria_estadisticas)
+
+                    
+                lt.changeInfo(equipos, posicion, equipo)
+                    
+    sa.sort(equipos, sort_criteria_estadisticas)               
+
     
-    equipos_encontrados = lt.size(estadisticas_torneo)
+    return equipos, posicion_equipos
     
-    if n_equipos <= equipos_encontrados:
-        equipos_a_mostrar = lt.subList(estadisticas_torneo, 1, n_equipos)
-        
-    else:
-        equipos_a_mostrar = lt.subList(estadisticas_torneo, 1, equipos_encontrados)
-        
-    return equipos_a_mostrar, equipos_encontrados
-    
-    
-    
-               
-    
+                
                     
 
 

@@ -26,6 +26,7 @@ import controller
 from DISClib.ADT import list as lt
 from DISClib.ADT import stack as st
 from DISClib.ADT import queue as qu
+from DISClib.ADT import list as lt
 assert cf
 from tabulate import tabulate
 import traceback
